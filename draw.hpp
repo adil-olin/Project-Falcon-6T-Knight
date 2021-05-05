@@ -9,8 +9,12 @@ using namespace std;
 
 void prepareScene(void)
 {
-	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(app.renderer, 0, 100, 100, 255);
 	SDL_RenderClear(app.renderer);
+	SDL_Texture* texture = IMG_LoadTexture(app.renderer,"background.jpg");
+	SDL_RenderCopy(app.renderer,texture,NULL,NULL);
+	SDL_DestroyTexture(texture);
+	texture = NULL;
 }
 
 void presentScene(void)
@@ -21,11 +25,13 @@ void presentScene(void)
 SDL_Texture *loadTexture(char *filename)
 {
 	SDL_Texture *texture;
-
+	SDL_Surface* surface;
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-
-	texture = IMG_LoadTexture(app.renderer, filename);
-
+	surface = IMG_Load(filename);
+	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
+	texture = SDL_CreateTextureFromSurface(app.renderer,surface);
+	SDL_FreeSurface(surface);
+	surface = NULL;
 	return texture;
 }
 
