@@ -11,7 +11,7 @@ void prepareScene(void)
 {
 	SDL_SetRenderDrawColor(app.renderer, 0, 100, 100, 255);
 	SDL_RenderClear(app.renderer);
-	SDL_Texture* texture = IMG_LoadTexture(app.renderer,"background.jpg");
+	SDL_Texture* texture = IMG_LoadTexture(app.renderer,"Background.jpg");
 	SDL_RenderCopy(app.renderer,texture,NULL,NULL);
 	SDL_DestroyTexture(texture);
 	texture = NULL;

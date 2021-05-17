@@ -58,7 +58,7 @@ void initplayer(void)
 
 void initstage(void)
 {
-    initplayer();
+    initplayer(); //in stage.hpp header file 
     enemyspawntimer=0;
 }
 void doBullet(void)
@@ -87,7 +87,7 @@ void doenemy(void)
     {
         enemy[i].x += enemy[i].dx;
 		enemy[i].y += enemy[i].dy;
-        if(enemy[i].y>720 || enemy[i].health<=0)
+        if(enemy[i].y>720 || enemy[i].health<=0 || (enemy[i].x>SCREEN_WIDTH+30 || enemy[i].x<-30))
         {
             pos.push_back(i);
         }

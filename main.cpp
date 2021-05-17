@@ -14,38 +14,38 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	//double then,remainder;
+	long then;
+	float remainder;
 
     memset(&app, 0, sizeof(App));
 
-	initSDL();
+	initSDL(); //in init.hpp header file
 
-	initstage();
+	initstage(); //in stage.hpp header file 
 
-	//then = SDL_GetTicks();
+	then = SDL_GetTicks();
 
-	//remainder = 0;
+	remainder = 0;
 
 	while (1)
 	{
-		prepareScene();
+		prepareScene(); //in draw.hpp header file
 
-		doInput();
+		doInput(); //in Input.hpp header file 
 
-		movePlayer();
+		movePlayer(); //in movement.hpp header file 
 
-		doenemy();
+		doenemy(); //in stage.hpp header file 
 
-		doBullet();
+		doBullet(); //in stage.hpp header file
 
-		spawnenemy();
+		spawnenemy(); //in movement.hpp header file 
 
-        draw();
+        draw(); //in draw.hpp header file
         
-		presentScene();
+		presentScene(); //in draw.hpp header file 
 
-		//capFrameRate(&then, &remainder);
-		SDL_Delay(16);
+		capFrameRate(&then, &remainder); //in stage.hpp header file (used for getting exact 60 fps)
 	}
     return 0;
 }

@@ -78,7 +78,7 @@ void movePlayer()
 
 	if (player.reload == 0)
 	{
-		fireBullet();
+		fireBullet(); //in movement.hpp header file
 	}
 
 	player.x += player.dx;

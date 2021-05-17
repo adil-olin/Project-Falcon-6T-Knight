@@ -15,5 +15,6 @@ using namespace std;
 #define MAX_KEYBOARD_KEYS 350
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
+#define MAX_STARS   500
 
 #endif
