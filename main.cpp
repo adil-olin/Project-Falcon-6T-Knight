@@ -19,9 +19,9 @@ int main(int argc, char* argv[])
 
     memset(&app, 0, sizeof(App));
 
-	initSDL(); //in init.hpp header file
+	initSDL();
 
-	initstage(); //in stage.hpp header file 
+	initstage();
 
 	then = SDL_GetTicks();
 
@@ -29,17 +29,17 @@ int main(int argc, char* argv[])
 
 	while (1)
 	{
-		prepareScene(); //in draw.hpp header file
+		prepareScene();
 
-		doInput(); //in Input.hpp header file 
+		doInput();
 
 		app.delegate.logic();
 
 		app.delegate.draw();
         
-		presentScene(); //in draw.hpp header file 
+		presentScene();
 
-		capFrameRate(&then, &remainder); //in stage.hpp header file (used for getting exact 60 fps)
+		capFrameRate(&then, &remainder);
 	}
     return 0;
 }

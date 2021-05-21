@@ -321,21 +321,6 @@ void doFighter(void)
     {
         stage.Fighter.erase(stage.Fighter.begin()+pos[i]);
     }
-    pos.clear();
-    for(int i=0;i<destroyed_enemy.size();i++)
-    {
-        destroyed_enemy[i].x += destroyed_enemy[i].dx;
-		destroyed_enemy[i].y += destroyed_enemy[i].dy;
-        if(destroyed_enemy[i].y>720)
-        {
-            pos.push_back(i);
-        }
-    }
-    sort(pos.rbegin(),pos.rend());
-    for(int i=0;i<pos.size();i++)
-    {   
-        destroyed_enemy.erase(destroyed_enemy.begin()+pos[i]);
-    }
 }
 
 
