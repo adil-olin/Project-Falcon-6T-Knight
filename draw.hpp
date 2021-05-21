@@ -98,6 +98,8 @@ static void drawExplosions(void)
 	{
 		SDL_SetTextureColorMod(explosionTexture, temp.r, temp.g, temp.b);
 		SDL_SetTextureAlphaMod(explosionTexture, temp.a);
+
+		blit(explosionTexture, temp.x, temp.y);
 	}
 
 	SDL_SetRenderDrawBlendMode(app.renderer, SDL_BLENDMODE_NONE);

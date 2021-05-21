@@ -34,7 +34,7 @@ void initPlayer(void)
     player.w=100;
     player.h=123;
     player.side=SIDE_PLAYER;
-    player.health=1;
+    player.health=10;
 
     stage.Fighter.push_back(player);
 }
@@ -123,8 +123,8 @@ static void addExplosions(int x, int y, int num)
 
 		temp.x = x + (rand() % 32) - (rand() % 32);
 		temp.y = y + (rand() % 32) - (rand() % 32);
-		temp.dx = (rand() % 10) - (rand() % 10);
-		temp.dy = (rand() % 10) - (rand() % 10);
+		temp.dx = 0;
+		temp.dy = (rand() % 10) + (rand() % 10);
 
 		temp.dx /= 10;
 		temp.dy /= 10;
@@ -151,7 +151,6 @@ static void addExplosions(int x, int y, int num)
 				temp.b = 255;
 				break;
 		}
-
 		temp.a = rand() % FPS * 3;
         stage.explosion.push_back(temp);
 	}
@@ -311,6 +310,8 @@ void doFighter(void)
             {
                 isplayernull=true;
             }
+            addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+            addDebris(&stage.Fighter[i]);
             pos.push_back(i);
         }
     }
