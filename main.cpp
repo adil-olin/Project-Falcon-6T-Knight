@@ -9,7 +9,7 @@
 #include "draw.hpp"
 #include "movement.hpp"
 #include "stage.hpp"
-#include "Collision.hpp"
+#include "Util.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -33,15 +33,9 @@ int main(int argc, char* argv[])
 
 		doInput();
 
-		movePlayer();
+		app.delegate.logic();
 
-		doenemy();
-
-		doBullet();
-
-		spawnenemy();
-
-        draw();
+		app.delegate.draw();
         
 		presentScene();
 
@@ -49,4 +43,3 @@ int main(int argc, char* argv[])
 	}
     return 0;
 }
-

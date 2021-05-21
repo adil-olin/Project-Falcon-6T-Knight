@@ -1,10 +1,13 @@
 #pragma once
 #ifndef init_hpp
 #define init_hpp 
+
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include "stage.hpp"
+#include "draw.hpp"
 using namespace std;
 
 void initSDL(void)
@@ -12,6 +15,8 @@ void initSDL(void)
 	int rendererFlags, windowFlags;
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	rendererFlags = SDL_RENDERER_ACCELERATED;
+
+	SDL_ShowCursor(0);
 
 	windowFlags = 0;
 

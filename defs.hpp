@@ -1,10 +1,11 @@
 #pragma once
 #ifndef defs_hpp
 #define defs_hpp 
+
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 #define SCREEN_WIDTH   1280
@@ -15,5 +16,10 @@ using namespace std;
 #define MAX_KEYBOARD_KEYS 350
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
+#define FPS 60
+
+#define ALIEN_BULLET_SPEED    8
+#define MAX_STARS   500
 
 #endif
+
