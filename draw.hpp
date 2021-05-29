@@ -24,9 +24,12 @@ SDL_Texture *loadTexture(char *filename)
 	SDL_Texture *texture;
 
 	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-
-	texture = IMG_LoadTexture(app.renderer, filename);
-
+	SDL_Surface* surface = NULL;
+	surface = IMG_Load(filename);
+	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
+	texture = SDL_CreateTextureFromSurface(app.renderer,surface);
+	SDL_FreeSurface(surface);
+	surface = NULL;
 	return texture;
 }
 
