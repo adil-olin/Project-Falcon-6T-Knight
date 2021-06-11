@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -78,6 +79,7 @@ struct Stage
 	vector<Entity> Bullet,Fighter;
 	vector<Explosion> explosion;
 	vector<Debris> debris;
+	int score;
 
 } stage;
 
@@ -90,5 +92,7 @@ SDL_Texture *bulletTexture;
 SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
+SDL_Texture *fontTexture;
+int highscore = 0;
 
 #endif

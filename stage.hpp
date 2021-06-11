@@ -11,6 +11,7 @@
 #include "movement.hpp"
 #include "init.hpp"
 #include "draw.hpp"
+#include "structure.hpp"
 
 using namespace std;
 
@@ -211,6 +212,11 @@ bool bulletHitfighet(Entity *temp)
             }
             stage.Fighter[i].health -= temp->health;
             temp->health = 0;
+           
+            stage.score++;
+
+        	highscore = max(stage.score, highscore);
+        
             return true;
         }
     }
@@ -344,6 +350,7 @@ static void resetStage(void)
     backgroundY = -720;
 
 	stageResetTimer = FPS * 3;
+    stage.score = 0;
 }
 
 static void logic(void)
@@ -374,13 +381,13 @@ void initstage(void)
 {
     app.delegate.logic = logic;
 	app.delegate.draw = draw;
-
-    playerTexture = loadTexture("ship2.png");
-    bulletTexture = loadTexture("bullet_level_1.png");
-    enemyTexture = loadTexture("enemy_ships_1.png");
-    alienBulletTexture = loadTexture("enemybullet.png");
-    explosionTexture = loadTexture("explosion.png");
-	background = loadTexture("Background.jpg");
+    playerTexture = loadTexture("Media/ship2.png");
+    bulletTexture = loadTexture("Media/bullet_level_1.png");
+    enemyTexture = loadTexture("Media/enemy_ships_1.png");
+    alienBulletTexture = loadTexture("Media/enemybullet.png");
+    explosionTexture = loadTexture("Media/explosion.png");
+	background = loadTexture("Media/Background.jpg");
+    fontTexture = loadTexture("font/font.png");
 
     resetStage();
 }

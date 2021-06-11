@@ -6,8 +6,8 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
 #include<bits/stdc++.h>
+#include "text.hpp"
 using namespace std;
-
 void prepareScene(void)
 {
 	SDL_SetRenderDrawColor(app.renderer, 0, 100, 100, 255);
@@ -124,6 +124,57 @@ static void drawFighter(void)
 	}
 }
 
+
+void drawText(int x, int y, int r, int g, int b, char *format, ...)
+{
+	int i, len, c;
+	SDL_Rect rect;
+	va_list args;
+
+	memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
+
+	va_start(args, format);
+	vsprintf(drawTextBuffer, format, args);
+	va_end(args);
+
+	len = strlen(drawTextBuffer);
+
+	rect.w = GLYPH_WIDTH;
+	rect.h = GLYPH_HEIGHT;
+	rect.y = 0;
+
+	SDL_SetTextureColorMod(fontTexture, r, g, b);
+
+	for (i = 0 ; i < len ; i++)
+	{
+		c = drawTextBuffer[i];
+
+		if (c >= ' ' && c <= 'Z')
+		{
+			rect.x = (c - ' ') * GLYPH_WIDTH;
+
+			blitRect(fontTexture, &rect, x, y);
+
+			x += GLYPH_WIDTH;
+		}
+	}
+}
+
+
+static void drawHud(void)
+{
+	drawText(10, 10, 255, 255, 255, "SCORE: %03d", stage.score);
+
+	if (stage.score > 0 && stage.score == highscore)
+	{
+		drawText(960, 10, 0, 255, 0, "HIGH SCORE: %03d", highscore);
+	}
+	else
+	{
+		drawText(960, 10, 255, 255, 255, "HIGH SCORE: %03d", highscore);
+	}
+}
+
 static void draw(void)
 {
 	drawBackground();
@@ -137,6 +188,8 @@ static void draw(void)
 	drawDebris();
 
 	drawExplosions();
+
+	drawHud();
 }
 
 #endif

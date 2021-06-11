@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 #include "structure.hpp"
@@ -10,6 +11,7 @@
 #include "movement.hpp"
 #include "stage.hpp"
 #include "Util.hpp"
+#include "text.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -31,15 +33,20 @@ int main(int argc, char* argv[])
 	{
 		prepareScene();
 
+		initfont();
+		
 		doInput();
-
 		app.delegate.logic();
 
 		app.delegate.draw();
+
+		//initFonts();
         
 		presentScene();
 
 		capFrameRate(&then, &remainder);
+
+		//close();
 	}
     return 0;
 }

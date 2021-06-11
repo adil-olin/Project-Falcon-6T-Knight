@@ -6,6 +6,7 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
 #include<bits/stdc++.h>
+#include<SDL2/SDL_ttf.h>
 using namespace std;
 
 void doKeyDown(SDL_KeyboardEvent *event)
