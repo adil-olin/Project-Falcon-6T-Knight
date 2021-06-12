@@ -6,6 +6,7 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
 #include<bits/stdc++.h>
+#include<SDL2/SDL_ttf.h>
 #include "text.hpp"
 using namespace std;
 void prepareScene(void)
@@ -23,7 +24,7 @@ SDL_Texture *loadTexture(char *filename)
 {
 	SDL_Texture *texture;
 
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 	SDL_Surface* surface = NULL;
 	surface = IMG_Load(filename);
 	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
@@ -125,59 +126,52 @@ static void drawFighter(void)
 }
 
 
-void drawText(int x, int y, int r, int g, int b, char *format, ...)
+void drawText(int x, int y,int h,int w, int r, int g, int b, char *format, ...)
 {
 	int i, len, c;
-	SDL_Rect rect;
 	va_list args;
+
+	char drawTextBuffer[205];
 
 	memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
 
 	va_start(args, format);
 	vsprintf(drawTextBuffer, format, args);
+	
 	va_end(args);
 
 	len = strlen(drawTextBuffer);
 
-	rect.w = GLYPH_WIDTH;
-	rect.h = GLYPH_HEIGHT;
-	rect.y = 0;
-
-	SDL_SetTextureColorMod(fontTexture, r, g, b);
-
-	for (i = 0 ; i < len ; i++)
-	{
-		c = drawTextBuffer[i];
-
-		if (c >= ' ' && c <= 'Z')
-		{
-			rect.x = (c - ' ') * GLYPH_WIDTH;
-
-			blitRect(fontTexture, &rect, x, y);
-
-			x += GLYPH_WIDTH;
-		}
-	}
+	SDL_Color color = {r, g, b};
+      SDL_Surface* surface = TTF_RenderText_Solid(font,drawTextBuffer,color);
+	fontTexture = SDL_CreateTextureFromSurface(app.renderer,surface);
+	SDL_FreeSurface(surface);
+	SDL_Rect rect ={NULL,NULL,w,h};
+	blitRect(fontTexture,&rect,x,y);
+	SDL_DestroyTexture(fontTexture);
 }
 
 
 static void drawHud(void)
 {
-	drawText(10, 10, 255, 255, 255, "SCORE: %03d", stage.score);
-
+	drawText(100, 10,70,250, 255, 255, 255, "SCORE: %03d", stage.score);
+	
 	if (stage.score > 0 && stage.score == highscore)
 	{
-		drawText(960, 10, 0, 255, 0, "HIGH SCORE: %03d", highscore);
+		drawText(960, 10,70,250, 0, 255, 0, "HIGH SCORE: %03d", highscore);
 	}
 	else
 	{
-		drawText(960, 10, 255, 255, 255, "HIGH SCORE: %03d", highscore);
+		drawText(960, 10,70,250, 255, 255, 255, "HIGH SCORE: %03d", highscore);
 	}
 }
 
 static void draw(void)
 {
+	
 	drawBackground();
+
+	drawHud();
 
 	drawStarfield();
 
@@ -189,7 +183,6 @@ static void draw(void)
 
 	drawExplosions();
 
-	drawHud();
 }
 
 #endif

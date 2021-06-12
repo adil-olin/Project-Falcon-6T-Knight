@@ -19,10 +19,10 @@ int main(int argc, char* argv[])
 	long then;
 	float remainder;
 
-    memset(&app, 0, sizeof(App));
+   	memset(&app, 0, sizeof(App));
 
 	initSDL();
-
+	initfont();
 	initstage();
 
 	then = SDL_GetTicks();
@@ -36,17 +36,15 @@ int main(int argc, char* argv[])
 		initfont();
 		
 		doInput();
+		
 		app.delegate.logic();
 
 		app.delegate.draw();
 
-		//initFonts();
-        
 		presentScene();
 
 		capFrameRate(&then, &remainder);
 
-		//close();
 	}
     return 0;
 }
