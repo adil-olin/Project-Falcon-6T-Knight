@@ -387,12 +387,7 @@ void initstage(void)
     alienBulletTexture = loadTexture("Media/enemybullet.png");
     explosionTexture = loadTexture("Media/explosion.png");
 	background = loadTexture("Media/Background.jpg");
-    font = TTF_OpenFont("score.ttf",25);
-     if(font == NULL)
-      {
-            printf("Error: Font not found\n");
-            exit(0);
-      }
+    fontTexture = loadTexture("font/font.png");
 
     resetStage();
 }

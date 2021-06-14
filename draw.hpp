@@ -6,7 +6,6 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
 #include<bits/stdc++.h>
-#include<SDL2/SDL_ttf.h>
 #include "text.hpp"
 using namespace std;
 void prepareScene(void)
@@ -51,8 +50,19 @@ void blitRect(SDL_Texture *texture, SDL_Rect *src, int x, int y)
 
 	dest.x = x;
 	dest.y = y;
-	dest.w = src->w;
-	dest.h = src->h;
+	dest.w = 50;
+	dest.h = 50;
+
+	SDL_RenderCopy(app.renderer, texture, src, &dest);
+}
+void blitFont(SDL_Texture *texture, SDL_Rect *src, int x, int y, int w, int h)
+{
+	SDL_Rect dest;
+
+	dest.x = x;
+	dest.y = y;
+	dest.w = w;
+	dest.h = h;
 
 	SDL_RenderCopy(app.renderer, texture, src, &dest);
 }
@@ -126,9 +136,10 @@ static void drawFighter(void)
 }
 
 
-void drawText(int x, int y,int h,int w, int r, int g, int b, char *format, ...)
+void drawText(int x, int y, int r, int g, int b, char *format, ...)
 {
 	int i, len, c;
+	SDL_Rect rect;
 	va_list args;
 
 	char drawTextBuffer[205];
@@ -142,27 +153,92 @@ void drawText(int x, int y,int h,int w, int r, int g, int b, char *format, ...)
 
 	len = strlen(drawTextBuffer);
 
-	SDL_Color color = {r, g, b};
-      SDL_Surface* surface = TTF_RenderText_Solid(font,drawTextBuffer,color);
-	fontTexture = SDL_CreateTextureFromSurface(app.renderer,surface);
-	SDL_FreeSurface(surface);
-	SDL_Rect rect ={NULL,NULL,w,h};
-	blitRect(fontTexture,&rect,x,y);
-	SDL_DestroyTexture(fontTexture);
+	rect.w = GLYPH_WIDTH;
+	rect.h = GLYPH_HEIGHT;
+	
+
+	SDL_SetTextureColorMod(fontTexture, r, g, b);
+	for (i = 0 ; i < len ; i++)
+	{
+		c = drawTextBuffer[i];
+		if (c >= 'A' && c <= 'I')
+		{
+			rect.x = (c - 'A') * GLYPH_WIDTH;
+			rect.y = 0;
+			blitFont(fontTexture, &rect, x, y,50,50);
+
+			x += GLYPH_WIDTH-53;
+		}
+		else if (c >= 'J' && c <= 'R')
+		{
+			cout<<c<<endl;
+			rect.x = (c - 'J') * GLYPH_WIDTH;
+			rect.y = GLYPH_HEIGHT;
+			blitFont(fontTexture, &rect, x, y,50,50);
+
+			x += GLYPH_WIDTH-53;
+		}
+		else if (c == ':')
+		{
+			cout<<c<<endl;
+			rect.x =730;
+			rect.y = 190;
+			blitFont(fontTexture, &rect, x, y,50,50);
+
+			x += GLYPH_WIDTH-53;
+		}
+		else if (c == '9')
+		{
+			cout<<c<<endl;
+			rect.x =10;
+			rect.y = 747;
+			blitFont(fontTexture, &rect, x, y,50,87);
+
+			x += GLYPH_WIDTH-53;
+		}
+		else if (c == ' ')
+		{
+			cout<<c<<endl;
+			rect.x =725;
+			rect.y = 850;
+			blitFont(fontTexture, &rect, x, y,50,10);
+
+			x += GLYPH_WIDTH-80;
+		}
+		else if (c >= 'S' && c <= 'Z')
+		{
+			rect.x = (c - 'S') * GLYPH_WIDTH;
+			rect.y = GLYPH_HEIGHT*2-5;
+			blitFont(fontTexture, &rect, x, y,50,50);
+
+			x += GLYPH_WIDTH-53;
+		}
+		else if (c >= '0' && c <= '8')
+		{
+			int h = y-10;
+			rect.x = (c - '0') * GLYPH_WIDTH;
+			rect.y = 620-25;
+			blitFont(fontTexture, &rect, x, h,50,50);
+
+			x += GLYPH_WIDTH-55;
+			
+		}
+		
+	}
 }
 
 
 static void drawHud(void)
 {
-	drawText(100, 10,70,250, 255, 255, 255, "SCORE: %03d", stage.score);
+	drawText(10, 10, 255, 255, 255, "SCORE: %03d", stage.score);
 	
 	if (stage.score > 0 && stage.score == highscore)
 	{
-		drawText(960, 10,70,250, 0, 255, 0, "HIGH SCORE: %03d", highscore);
+		drawText(700, 10, 0, 255, 0, "HIGH  SCORE: %03d", highscore);
 	}
 	else
 	{
-		drawText(960, 10,70,250, 255, 255, 255, "HIGH SCORE: %03d", highscore);
+		drawText(700, 10, 255, 255, 255, "HIGH  SCORE: %03d", highscore);
 	}
 }
 

@@ -93,7 +93,6 @@ SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
 SDL_Texture *fontTexture;
-TTF_Font* font;
 int highscore = 0;
 
 #endif
