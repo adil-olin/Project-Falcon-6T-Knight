@@ -171,7 +171,6 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 		}
 		else if (c >= 'J' && c <= 'R')
 		{
-			cout<<c<<endl;
 			rect.x = (c - 'J') * GLYPH_WIDTH;
 			rect.y = GLYPH_HEIGHT;
 			blitFont(fontTexture, &rect, x, y,50,50);
@@ -180,7 +179,6 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 		}
 		else if (c == ':')
 		{
-			cout<<c<<endl;
 			rect.x =730;
 			rect.y = 190;
 			blitFont(fontTexture, &rect, x, y,50,50);
@@ -189,7 +187,6 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 		}
 		else if (c == '9')
 		{
-			cout<<c<<endl;
 			rect.x =10;
 			rect.y = 747;
 			blitFont(fontTexture, &rect, x, y,50,87);
@@ -198,7 +195,6 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 		}
 		else if (c == ' ')
 		{
-			cout<<c<<endl;
 			rect.x =725;
 			rect.y = 850;
 			blitFont(fontTexture, &rect, x, y,50,10);

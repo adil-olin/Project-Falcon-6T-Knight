@@ -32,21 +32,16 @@ int main(int argc, char* argv[])
 	while (1)
 	{
 		prepareScene();
-
-		initfont();
 		
 		doInput();
+
 		app.delegate.logic();
 
 		app.delegate.draw();
-
-		//initFonts();
         
 		presentScene();
 
 		capFrameRate(&then, &remainder);
-
-		//close();
 	}
     return 0;
 }

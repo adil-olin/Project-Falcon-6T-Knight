@@ -210,10 +210,14 @@ bool bulletHitfighet(Entity *temp)
             {
                 player.health-=temp->health;
             }
+            else
+            {
+                stage.score++;
+            }
             stage.Fighter[i].health -= temp->health;
             temp->health = 0;
            
-            stage.score++;
+            
 
         	highscore = max(stage.score, highscore);
         
@@ -355,6 +359,8 @@ static void resetStage(void)
 
 static void logic(void)
 {
+    initfont();
+
     doBackground();
 
 	doStarfield();

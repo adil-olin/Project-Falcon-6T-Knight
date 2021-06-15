@@ -17,7 +17,6 @@ void initfont()
       GLYPH_HEIGHT = surface->h/9;
       GLYPH_WIDTH = surface->w/9;
       SDL_FreeSurface(surface);
-
 }
 
 
