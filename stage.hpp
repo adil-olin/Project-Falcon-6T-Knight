@@ -35,7 +35,8 @@ void initPlayer(void)
     player.w=100;
     player.h=123;
     player.side=SIDE_PLAYER;
-    player.health=10;
+    player.health=100;
+    player.life=3;
 
     stage.Fighter.push_back(player);
 }
@@ -254,7 +255,7 @@ static void fireAlienBullet(Entity *e)
 
 	tmp_bullet.x = e->x;
 	tmp_bullet.y = e->y;
-	tmp_bullet.health = 1;
+	tmp_bullet.health = 10;
 	tmp_bullet.texture = alienBulletTexture;
 	tmp_bullet.side = e->side;
 	//SDL_QueryTexture(bullet->texture, NULL, NULL, &bullet->w, &bullet->h);
@@ -318,11 +319,27 @@ void doFighter(void)
         {
             if(stage.Fighter[i]==player)
             {
-                isplayernull=true;
+                stage.Fighter[i].life--;
+                player.life--;
+                if(stage.Fighter[i].life<=0)
+                {
+                    isplayernull=true;
+                    addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+                    addDebris(&stage.Fighter[i]);
+                    pos.push_back(i);
+                }
+                else
+                {
+                    player.health=100;
+                    stage.Fighter[i].health=100;
+                }
             }
-            addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
-            addDebris(&stage.Fighter[i]);
-            pos.push_back(i);
+            else
+            {
+                addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+                addDebris(&stage.Fighter[i]);
+                pos.push_back(i);
+            }
         }
     }
 
@@ -385,8 +402,6 @@ static void logic(void)
 
 void initstage(void)
 {
-    app.delegate.logic = logic;
-	app.delegate.draw = draw;
     playerTexture = loadTexture("Media/ship2.png");
     bulletTexture = loadTexture("Media/bullet_level_1.png");
     enemyTexture = loadTexture("Media/enemy_ships_1.png");
@@ -394,7 +409,13 @@ void initstage(void)
     explosionTexture = loadTexture("Media/explosion.png");
 	background = loadTexture("Media/Background.jpg");
     fontTexture = loadTexture("font/font.png");
+    healthbar = loadTexture("Media/Health bar.jpg");
+    healthpod = loadTexture("Media/Healthpod.png");
+    healthstat = loadTexture("Media/health_stat.png");
+    Life = loadTexture("Media/life.png");
 
+    app.delegate.logic = logic;
+	app.delegate.draw = draw;
     resetStage();
 }
 #endif

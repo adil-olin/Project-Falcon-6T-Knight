@@ -28,7 +28,7 @@ struct Entity
 {
 	float x;
 	float y;
-    int health,reload,w,h;
+    int health,reload,w,h,life;
 	float dx,dy;
 	int side;
 	SDL_Texture *texture;
@@ -76,7 +76,7 @@ struct Stage
 	//bullet will contain all type of bullet from enemy or ally
 	//Fighter will do same for enemy and the player. Here player will act as reference
 
-	vector<Entity> Bullet,Fighter;
+	vector<Entity> Bullet,Fighter,pointpod;
 	vector<Explosion> explosion;
 	vector<Debris> debris;
 	int score;
@@ -93,6 +93,12 @@ SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
 SDL_Texture *fontTexture;
+SDL_Texture *healthpod;
+SDL_Texture *healthbar;
+SDL_Texture *healthstat;
+SDL_Texture *Life;
+
+
 int highscore = 0;
 
 #endif

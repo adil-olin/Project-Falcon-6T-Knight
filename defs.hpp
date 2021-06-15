@@ -18,6 +18,7 @@ using namespace std;
 #define MAX_KEYBOARD_KEYS 350
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
+#define Health_Pod  2
 #define FPS 60
 
 #define ALIEN_BULLET_SPEED    8

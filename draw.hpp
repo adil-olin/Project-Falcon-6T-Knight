@@ -228,22 +228,46 @@ static void drawHud(void)
 {
 	drawText(10, 10, 255, 255, 255, "SCORE: %03d", stage.score);
 	
-	if (stage.score > 0 && stage.score == highscore)
+	// if (stage.score > 0 && stage.score == highscore)
+	// {
+	// 	drawText(700, 10, 0, 255, 0, "HIGH  SCORE: %03d", highscore);
+	// }
+	// else
+	// {
+	// 	drawText(700, 10, 255, 255, 255, "HIGH  SCORE: %03d", highscore);
+	// }
+}
+
+static void drawHealth()
+{
+	float x,y;
+	y=5;
+	x=SCREEN_WIDTH/2 - (player.life/2)*60; //here 60 is the height of life image
+	for(int i=1;i<=player.life;i++)
 	{
-		drawText(700, 10, 0, 255, 0, "HIGH  SCORE: %03d", highscore);
+		blit(Life, x, y);
+		x+=60;
 	}
-	else
+	blit(healthbar,10,60);
+	x=10+47;
+	for(int i=1;i<=player.health;i+=10)
 	{
-		drawText(700, 10, 255, 255, 255, "HIGH  SCORE: %03d", highscore);
+		cout<<"OK"<<endl;
+		blit(healthstat,x,60+19);
+		x+=15;
+		if(x>=150)
+		{
+			x=150;
+			blit(healthstat,x,60+19);
+			break;
+		}
 	}
 }
 
 static void draw(void)
 {
-	
-	drawBackground();
 
-	drawHud();
+	drawBackground();
 
 	drawStarfield();
 
@@ -254,6 +278,10 @@ static void draw(void)
 	drawDebris();
 
 	drawExplosions();
+
+	drawHealth();
+
+	drawHud();
 
 }
 
