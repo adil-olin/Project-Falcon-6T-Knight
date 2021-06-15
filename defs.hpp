@@ -19,6 +19,7 @@ using namespace std;
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
 #define Health_Pod  2
+#define Life_Pod    3
 #define FPS 60
 
 #define ALIEN_BULLET_SPEED    8

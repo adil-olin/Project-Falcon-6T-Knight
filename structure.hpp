@@ -93,7 +93,7 @@ SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
 SDL_Texture *fontTexture;
-SDL_Texture *healthpod;
+SDL_Texture *lifepod;
 SDL_Texture *healthbar;
 SDL_Texture *healthstat;
 SDL_Texture *Life;

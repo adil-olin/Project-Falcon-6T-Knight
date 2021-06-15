@@ -264,6 +264,14 @@ static void drawHealth()
 	}
 }
 
+static void drawPod(void)
+{
+	for(auto tmp : stage.pointpod)
+	{
+		blit(tmp.texture,tmp.x,tmp.y);
+	}
+}
+
 static void draw(void)
 {
 
@@ -275,6 +283,8 @@ static void draw(void)
 
 	drawBullet();
 
+	drawPod();
+
 	drawDebris();
 
 	drawExplosions();
@@ -282,7 +292,6 @@ static void draw(void)
 	drawHealth();
 
 	drawHud();
-
 }
 
 #endif
