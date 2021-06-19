@@ -375,6 +375,10 @@ void initstage(void)
     app.delegate.logic = logic;
 	app.delegate.draw = draw;
 
+    load0 = loadTexture("load0.jpg");
+    load1 = loadTexture("load1.jpg");
+    load2 = loadTexture("load2.jpg");
+    logo = loadTexture("Logo.jpg");
     playerTexture = loadTexture("ship2.png");
     bulletTexture = loadTexture("bullet_level_1.png");
     enemyTexture = loadTexture("enemy_ships_1.png");

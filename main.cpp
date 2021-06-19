@@ -10,6 +10,7 @@
 #include "movement.hpp"
 #include "stage.hpp"
 #include "Util.hpp"
+#include"Intro.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -26,12 +27,13 @@ int main(int argc, char* argv[])
 	then = SDL_GetTicks();
 
 	remainder = 0;
-
+	intro();
 	while (1)
 	{
 		prepareScene();
 
 		doInput();
+		drawintro();
 
 		app.delegate.logic();
 

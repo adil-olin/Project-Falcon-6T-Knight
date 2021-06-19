@@ -83,7 +83,10 @@ struct Stage
 
 bool isplayernull = false;
 int enemyspawntimer,stageResetTimer,backgroundY;
-
+SDL_Texture *load0;
+SDL_Texture *load1;
+SDL_Texture *load2;
+SDL_Texture *logo;
 SDL_Texture *alienBulletTexture;
 SDL_Texture *playerTexture;
 SDL_Texture *bulletTexture;
