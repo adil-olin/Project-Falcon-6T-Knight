@@ -19,27 +19,23 @@ void presentScene(void)
 	SDL_RenderPresent(app.renderer);
 }
 
-static void addTextureToCache(char *name, SDL_Texture *sdlTexture)
+static void addTextureToCache(char *Name, SDL_Texture *sdlTexture)
 {
-	Texture *texture;
-	
-	memset(texture, 0, sizeof(Texture));
-	app.textureTail->next = texture;
-	app.textureTail = texture;
+	Texture temp;
 
-	STRNCPY(texture->name, name, MAX_NAME_LENGTH);
-	texture->texture = sdlTexture;
+	STRNCPY(temp.name, Name, MAX_NAME_LENGTH);
+	temp.texture = sdlTexture;
+	app.AllTexture.push_back(temp);
 }
 
-static SDL_Texture *getTexture(char *name)
+static SDL_Texture *getTexture(char *Name)
 {
-	Texture *t;
-
-	for (t = app.textureHead.next ; t != NULL ; t = t->next)
+	Texture t;
+	for(auto temp : app.AllTexture)
 	{
-		if (strcmp(t->name, name) == 0)
+		if (strcmp(temp.name, Name) == 0)
 		{
-			return t->texture;
+			return temp.texture;
 		}
 	}
 
@@ -55,33 +51,20 @@ SDL_Texture *loadTexture(char *filename)
 	if (texture == NULL)
 	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-		texture = IMG_LoadTexture(app.renderer, filename);
-		addTextureToCache(filename, texture);
-
 		SDL_Surface* surface = NULL;
 		surface = IMG_Load(filename);
 		SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
 		texture = SDL_CreateTextureFromSurface(app.renderer,surface);
+		// texture = IMG_LoadTexture(app.renderer, filename);
 		SDL_FreeSurface(surface);
 		surface = NULL;
+		
+		addTextureToCache(filename, texture);
 	}
 
 	return texture;
 }
 
-// SDL_Texture *loadTexture(char *filename)
-// {
-// 	SDL_Texture *texture;
-
-// 	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-// 	SDL_Surface* surface = NULL;
-// 	surface = IMG_Load(filename);
-// 	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
-// 	texture = SDL_CreateTextureFromSurface(app.renderer,surface);
-// 	SDL_FreeSurface(surface);
-// 	surface = NULL;
-// 	return texture;
-// }
 
 void blit(SDL_Texture *texture, int x, int y)
 {
@@ -186,12 +169,11 @@ static void drawFighter(void)
 }
 
 
-void drawText(int x, int y, int r, int g, int b, char *format, ...)
+void drawText(float x, float y, int r, int g, int b,char *format, ...)
 {
 	int i, len, c;
 	SDL_Rect rect;
 	va_list args;
-
 	char drawTextBuffer[205];
 
 	memset(&drawTextBuffer, '\0', sizeof(drawTextBuffer));
@@ -269,42 +251,72 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 			x += GLYPH_WIDTH-55;
 			
 		}
+		else if(c=='#')
+		{
+			int h = y-10;
+			rect.x = 545;
+			rect.y = 725;
+			blitFont(fontTexture, &rect, x, y,50,50);
+
+			x += GLYPH_WIDTH-55;
+		}
+		else if(c=='.')
+		{
+			int h = y-10;
+			rect.x = 95;
+			rect.y = 710;
+			blitFont(fontTexture, &rect, x, y+10,50,50);
+
+			x += GLYPH_WIDTH-55;
+		}
 		
 	}
 }
 
 
-static void drawHighscores(void)
+static void drawHud(void)
 {
-	int i, y;
-
-	y = 150;
-
-	drawText(425, 70, 255, 255, 255, "HIGHSCORES");
-
-	for (i = 0 ; i < NUM_HIGHSCORES ; i++)
-	{
-		if (highscores.highscore[i].recent)
-		{
-			drawText(425, y, 255, 255, 0, "#%d ............. %03d", (i + 1), highscores.highscore[i].score);
-		}
-		else
-		{
-			drawText(425, y, 255, 255, 255, "#%d ............. %03d", (i + 1), highscores.highscore[i].score);
-		}
-
-		y += 50;
-	}
-
-	drawText(425, 600, 255, 255, 255, "PRESS FIRE TO PLAY!");
+	drawText(10, 10, 255, 255, 255,"SCORE: %03d", stage.score);
 }
+
+static void drawHealth()
+{
+	float x,y;
+	y=5;
+	x=SCREEN_WIDTH/2 - (player.life/2)*60; //here 60 is the height of life image
+	for(int i=1;i<=player.life;i++)
+	{
+		blit(Life, x, y);
+		x+=60;
+	}
+	blit(healthbar,10,60);
+	x=10+47;
+	for(int i=1;i<=player.health;i+=10)
+	{
+		blit(healthstat,x,60+19);
+		x+=15;
+		if(x>=150)
+		{
+			x=150;
+			blit(healthstat,x,60+19);
+			break;
+		}
+	}
+}
+
+static void drawPod(void)
+{
+	for(auto tmp : stage.pointpod)
+	{
+		blit(tmp.texture,tmp.x,tmp.y);
+	}
+}
+
 
 static void draw(void)
 {
-	
-	drawBackground();
 
-	//drawHud();
+	drawBackground();
 
 	drawStarfield();
 
@@ -312,10 +324,15 @@ static void draw(void)
 
 	drawBullet();
 
+	drawPod();
+
 	drawDebris();
 
 	drawExplosions();
 
+	drawHealth();
+
+	drawHud();
 }
 
 #endif

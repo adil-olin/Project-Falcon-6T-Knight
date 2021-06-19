@@ -8,6 +8,9 @@
 #include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
 #include "draw.hpp"
+#include "stage.hpp"
+#include "text.hpp"
+#include "HighScore.hpp"
 using namespace std;
 
 void initSDL(void)
@@ -53,7 +56,7 @@ void initGame(void)
 
 	//initSounds();
 
-	initFonts();
+	initfont();
 
 	initHighscoreTable();
 
