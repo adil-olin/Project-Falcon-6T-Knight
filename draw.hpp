@@ -19,19 +19,69 @@ void presentScene(void)
 	SDL_RenderPresent(app.renderer);
 }
 
+static void addTextureToCache(char *name, SDL_Texture *sdlTexture)
+{
+	Texture *texture;
+	
+	memset(texture, 0, sizeof(Texture));
+	app.textureTail->next = texture;
+	app.textureTail = texture;
+
+	STRNCPY(texture->name, name, MAX_NAME_LENGTH);
+	texture->texture = sdlTexture;
+}
+
+static SDL_Texture *getTexture(char *name)
+{
+	Texture *t;
+
+	for (t = app.textureHead.next ; t != NULL ; t = t->next)
+	{
+		if (strcmp(t->name, name) == 0)
+		{
+			return t->texture;
+		}
+	}
+
+	return NULL;
+}
+
 SDL_Texture *loadTexture(char *filename)
 {
 	SDL_Texture *texture;
 
-	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
-	SDL_Surface* surface = NULL;
-	surface = IMG_Load(filename);
-	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
-	texture = SDL_CreateTextureFromSurface(app.renderer,surface);
-	SDL_FreeSurface(surface);
-	surface = NULL;
+	texture = getTexture(filename);
+
+	if (texture == NULL)
+	{
+		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+		texture = IMG_LoadTexture(app.renderer, filename);
+		addTextureToCache(filename, texture);
+
+		SDL_Surface* surface = NULL;
+		surface = IMG_Load(filename);
+		SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
+		texture = SDL_CreateTextureFromSurface(app.renderer,surface);
+		SDL_FreeSurface(surface);
+		surface = NULL;
+	}
+
 	return texture;
 }
+
+// SDL_Texture *loadTexture(char *filename)
+// {
+// 	SDL_Texture *texture;
+
+// 	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+// 	SDL_Surface* surface = NULL;
+// 	surface = IMG_Load(filename);
+// 	SDL_SetColorKey(surface,SDL_TRUE,SDL_MapRGB(surface->format,0x00,0x00,0x00));
+// 	texture = SDL_CreateTextureFromSurface(app.renderer,surface);
+// 	SDL_FreeSurface(surface);
+// 	surface = NULL;
+// 	return texture;
+// }
 
 void blit(SDL_Texture *texture, int x, int y)
 {
@@ -224,58 +274,37 @@ void drawText(int x, int y, int r, int g, int b, char *format, ...)
 }
 
 
-static void drawHud(void)
+static void drawHighscores(void)
 {
-	drawText(10, 10, 255, 255, 255, "SCORE: %03d", stage.score);
-	
-	// if (stage.score > 0 && stage.score == highscore)
-	// {
-	// 	drawText(700, 10, 0, 255, 0, "HIGH  SCORE: %03d", highscore);
-	// }
-	// else
-	// {
-	// 	drawText(700, 10, 255, 255, 255, "HIGH  SCORE: %03d", highscore);
-	// }
-}
+	int i, y;
 
-static void drawHealth()
-{
-	float x,y;
-	y=5;
-	x=SCREEN_WIDTH/2 - (player.life/2)*60; //here 60 is the height of life image
-	for(int i=1;i<=player.life;i++)
+	y = 150;
+
+	drawText(425, 70, 255, 255, 255, "HIGHSCORES");
+
+	for (i = 0 ; i < NUM_HIGHSCORES ; i++)
 	{
-		blit(Life, x, y);
-		x+=60;
-	}
-	blit(healthbar,10,60);
-	x=10+47;
-	for(int i=1;i<=player.health;i+=10)
-	{
-		cout<<"OK"<<endl;
-		blit(healthstat,x,60+19);
-		x+=15;
-		if(x>=150)
+		if (highscores.highscore[i].recent)
 		{
-			x=150;
-			blit(healthstat,x,60+19);
-			break;
+			drawText(425, y, 255, 255, 0, "#%d ............. %03d", (i + 1), highscores.highscore[i].score);
 		}
-	}
-}
+		else
+		{
+			drawText(425, y, 255, 255, 255, "#%d ............. %03d", (i + 1), highscores.highscore[i].score);
+		}
 
-static void drawPod(void)
-{
-	for(auto tmp : stage.pointpod)
-	{
-		blit(tmp.texture,tmp.x,tmp.y);
+		y += 50;
 	}
+
+	drawText(425, 600, 255, 255, 255, "PRESS FIRE TO PLAY!");
 }
 
 static void draw(void)
 {
-
+	
 	drawBackground();
+
+	//drawHud();
 
 	drawStarfield();
 
@@ -283,15 +312,10 @@ static void draw(void)
 
 	drawBullet();
 
-	drawPod();
-
 	drawDebris();
 
 	drawExplosions();
 
-	drawHealth();
-
-	drawHud();
 }
 
 #endif

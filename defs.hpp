@@ -18,12 +18,16 @@ using namespace std;
 #define MAX_KEYBOARD_KEYS 350
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
-#define Health_Pod  2
-#define Life_Pod    3
 #define FPS 60
 
 #define ALIEN_BULLET_SPEED    8
 #define MAX_STARS   500
+
+#define NUM_HIGHSCORES 8
+
+#define STRNCPY(dest, src, n) strncpy(dest, src, n); dest[n - 1] = '\0'
+
+#define MAX_NAME_LENGTH 32
 
 #endif
 

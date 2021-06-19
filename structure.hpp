@@ -15,12 +15,18 @@ struct Delegate
 	void (*draw)(void);
 };
 
+struct Texture 
+{
+	char name[MAX_NAME_LENGTH];
+	SDL_Texture *texture;
+};
 
 struct App
 {
 	SDL_Renderer *renderer;
 	SDL_Window *window;
 	Delegate delegate;
+	vector<Texture> any_texture;
 	int keyboard[MAX_KEYBOARD_KEYS];
 }app;
 
@@ -28,7 +34,7 @@ struct Entity
 {
 	float x;
 	float y;
-    int health,reload,w,h,life;
+    int health,reload,w,h;
 	float dx,dy;
 	int side;
 	SDL_Texture *texture;
@@ -76,12 +82,23 @@ struct Stage
 	//bullet will contain all type of bullet from enemy or ally
 	//Fighter will do same for enemy and the player. Here player will act as reference
 
-	vector<Entity> Bullet,Fighter,pointpod;
+	vector<Entity> Bullet,Fighter;
 	vector<Explosion> explosion;
 	vector<Debris> debris;
 	int score;
 
 } stage;
+
+struct Highscore
+{
+	int recent;
+	int score;
+};
+
+struct Highscores
+{
+	Highscore highscore[NUM_HIGHSCORES];
+};
 
 bool isplayernull = false;
 int enemyspawntimer,stageResetTimer,backgroundY;
@@ -93,12 +110,6 @@ SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
 SDL_Texture *fontTexture;
-SDL_Texture *lifepod;
-SDL_Texture *healthbar;
-SDL_Texture *healthstat;
-SDL_Texture *Life;
-
-
 int highscore = 0;
 
 #endif

@@ -25,6 +25,10 @@ int main(int argc, char* argv[])
 
 	initstage();
 
+	initGame();
+
+	initHighscores();
+
 	then = SDL_GetTicks();
 
 	remainder = 0;
@@ -38,10 +42,11 @@ int main(int argc, char* argv[])
 		app.delegate.logic();
 
 		app.delegate.draw();
-        
+
 		presentScene();
 
 		capFrameRate(&then, &remainder);
+
 	}
     return 0;
 }

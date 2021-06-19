@@ -35,8 +35,7 @@ void initPlayer(void)
     player.w=100;
     player.h=123;
     player.side=SIDE_PLAYER;
-    player.health=100;
-    player.life=3;
+    player.health=10;
 
     stage.Fighter.push_back(player);
 }
@@ -215,10 +214,10 @@ bool bulletHitfighet(Entity *temp)
             {
                 stage.score++;
             }
+
             stage.Fighter[i].health -= temp->health;
             temp->health = 0;
            
-            
 
         	highscore = max(stage.score, highscore);
         
@@ -255,7 +254,7 @@ static void fireAlienBullet(Entity *e)
 
 	tmp_bullet.x = e->x;
 	tmp_bullet.y = e->y;
-	tmp_bullet.health = 10;
+	tmp_bullet.health = 1;
 	tmp_bullet.texture = alienBulletTexture;
 	tmp_bullet.side = e->side;
 	//SDL_QueryTexture(bullet->texture, NULL, NULL, &bullet->w, &bullet->h);
@@ -295,52 +294,6 @@ void doEnemy(void)
     }
 }
 
-void doPod(void)
-{
-    vector<int>pos;
-    for(int i=0;i<stage.pointpod.size();i++)
-    {
-        stage.pointpod[i].x+=stage.pointpod[i].dx;
-        stage.pointpod[i].y+=stage.pointpod[i].dy;
-        if(collision(player.x,player.y,player.w,player.h,stage.pointpod[i].x,stage.pointpod[i].y,stage.pointpod[i].w,stage.pointpod[i].h))
-        {
-            if(stage.pointpod[i].side==Life_Pod)
-            {
-                player.life=min(5,player.life+1);
-                stage.Fighter[0].life=player.life;
-            }
-            pos.push_back(i);
-        }
-        else if(stage.pointpod[i].y>=SCREEN_HEIGHT)
-        {
-            pos.push_back(i);
-        }
-    }
-    sort(pos.rbegin(),pos.rend());
-    for(int i=0;i<pos.size();i++)
-    {
-        stage.pointpod.erase(stage.pointpod.begin()+pos[i]);
-    }
-}
-
-void AddPod(int x,Entity *e)
-{
-    Entity tmp;
-    tmp.x=e->x;
-    tmp.y=e->y;
-    tmp.dx=0;
-    tmp.dy=5;
-    tmp.side=x;
-    tmp.w=30;
-    tmp.h=30;
-    if(x==Life_Pod)
-    {
-        tmp.texture=lifepod;
-        tmp.health=50;
-        stage.pointpod.push_back(tmp);
-    }
-}
-
 void doFighter(void)
 {
     vector<int>pos;
@@ -365,30 +318,11 @@ void doFighter(void)
         {
             if(stage.Fighter[i]==player)
             {
-                stage.Fighter[i].life--;
-                player.life--;
-                if(stage.Fighter[i].life<=0)
-                {
-                    isplayernull=true;
-                    addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
-                    addDebris(&stage.Fighter[i]);
-                    pos.push_back(i);
-                }
-                else
-                {
-                    player.health=100;
-                    stage.Fighter[i].health=100;
-                }
+                isplayernull=true;
             }
-            else
-            {
-                addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
-                addDebris(&stage.Fighter[i]);
-
-                AddPod(rand()%10,&stage.Fighter[i]);
-
-                pos.push_back(i);
-            }
+            addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+            addDebris(&stage.Fighter[i]);
+            pos.push_back(i);
         }
     }
 
@@ -407,12 +341,13 @@ static void resetStage(void)
     stage.Fighter.clear();
     stage.explosion.clear();
     stage.debris.clear();
-    stage.pointpod.clear();
     memset(&stage,0,sizeof(Stage));
     
 	initPlayer();
 
     initStarfield();
+
+    initfont();
 
     isplayernull=false;
 
@@ -426,8 +361,6 @@ static void resetStage(void)
 
 static void logic(void)
 {
-    initfont();
-
     doBackground();
 
 	doStarfield();
@@ -444,7 +377,12 @@ static void logic(void)
 
 	doDebris();
 
-    doPod();
+    if (isplayernull && --stageResetTimer <= 0)
+	{
+		addHighscore(stage.score);
+
+		initHighscores();
+	}
 
     if (isplayernull && --stageResetTimer <= 0)
 	{
@@ -454,6 +392,8 @@ static void logic(void)
 
 void initstage(void)
 {
+    app.delegate.logic = logic;
+	app.delegate.draw = draw;
     playerTexture = loadTexture("Media/ship2.png");
     bulletTexture = loadTexture("Media/bullet_level_1.png");
     enemyTexture = loadTexture("Media/enemy_ships_1.png");
@@ -461,13 +401,7 @@ void initstage(void)
     explosionTexture = loadTexture("Media/explosion.png");
 	background = loadTexture("Media/Background.jpg");
     fontTexture = loadTexture("font/font.png");
-    healthbar = loadTexture("Media/Health bar.jpg");
-    lifepod = loadTexture("Media/lifepod.png");
-    healthstat = loadTexture("Media/health_stat.png");
-    Life = loadTexture("Media/life.png");
 
-    app.delegate.logic = logic;
-	app.delegate.draw = draw;
     resetStage();
 }
 #endif
