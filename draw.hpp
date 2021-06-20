@@ -123,7 +123,7 @@ static void drawFighter(void)
 		blit(tmp.texture, tmp.x, tmp.y);
 	}
 }
-void drawintro(SDL_Texture *introtext){
+void drawintro(SDL_Texture* introtext){
 	SDL_RenderCopy(app.renderer,introtext,NULL,NULL);
 	SDL_DestroyTexture(introtext);
 }

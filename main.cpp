@@ -23,17 +23,23 @@ int main(int argc, char* argv[])
 	initSDL();
 
 	initstage();
-
+	
 	then = SDL_GetTicks();
 
 	remainder = 0;
 	intro();
+	
 	while (1)
 	{
 		prepareScene();
 
 		doInput();
-		drawintro();
+		drawintro(load0);
+		drawintro(load1);
+		drawintro(load2);
+		drawintro(title0);
+		drawintro(title1);
+		drawintro(title2);
 
 		app.delegate.logic();
 

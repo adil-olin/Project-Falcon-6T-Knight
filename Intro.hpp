@@ -17,7 +17,27 @@ static void intro()
 	prepareScene();
 	drawintro(load0);
 	presentScene();
-	SDL_Delay(6000);
+	SDL_Delay(1000);
+	SDL_RenderClear(app.renderer);
+	drawintro(load1);
+	presentScene();
+	SDL_Delay(1000);
+	SDL_RenderClear(app.renderer);
+	drawintro(load2);
+	presentScene();
+	SDL_Delay(1000);
+	SDL_RenderClear(app.renderer);
+	drawintro(title0);
+	presentScene();
+	SDL_Delay(1000);
+	SDL_RenderClear(app.renderer);
+	drawintro(title1);
+	presentScene();
+	SDL_Delay(1000);
+	SDL_RenderClear(app.renderer);
+	drawintro(title2);
+	presentScene();
+	SDL_Delay(2000);
 	SDL_RenderClear(app.renderer);
 	
 }
