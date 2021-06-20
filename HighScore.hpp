@@ -5,17 +5,18 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
-
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 #include "structure.hpp"
 #include "draw.hpp"
 #include "stage.hpp"
+#include "Intro.hpp"
 using namespace std;
 
 Highscores highscores;
 Highscore* newHighscore ;
-int cursorBlink;
+int cursorBlink,_timer=FPS*3;
 
 static void doBackground(void);
 static void doStarfield(void);
@@ -150,7 +151,7 @@ void addHighscore(int score)
 
 static void hlogic(void)
 {
-	//freopen("HighScores.text","w",stdout);
+	freopen("HighScores.text","w",stdout);
 	doBackground();
 
 	doStarfield();
@@ -161,13 +162,14 @@ static void hlogic(void)
 	}
 	else
 	{
-		if (app.keyboard[SDL_SCANCODE_SPACE])
+		if (app.keyboard[SDL_SCANCODE_SPACE] || --_timer<=0)
 		{
 			for(int i=0;i<NUM_HIGHSCORES;i++)
 			{
 				cout<<highscores.highscore[i].name<<" "<<highscores.highscore[i].score<<endl;
 			}
-			initstage();
+			intro();
+			//initstage();
 		}
 	}
 

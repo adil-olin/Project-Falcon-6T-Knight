@@ -5,7 +5,7 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
-
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 using namespace std;
@@ -108,12 +108,6 @@ struct Stage
 bool isplayernull = false;
 int enemyspawntimer,stageResetTimer,backgroundY,esc;
 
-SDL_Texture *load0;
-SDL_Texture *load1;
-SDL_Texture *load2;
-SDL_Texture *title0;
-SDL_Texture *title1;
-SDL_Texture *title2;
 SDL_Texture *alienBulletTexture;
 SDL_Texture *playerTexture;
 SDL_Texture *bulletTexture;
@@ -125,6 +119,12 @@ SDL_Texture *lifepod;
 SDL_Texture *healthbar;
 SDL_Texture *healthstat;
 SDL_Texture *Life;
+SDL_Texture *load0;
+SDL_Texture *load1;
+SDL_Texture *load2;
+SDL_Texture *title0;
+SDL_Texture *title1;
+SDL_Texture *title2;
 
 
 int highscore = 0;

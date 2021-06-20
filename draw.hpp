@@ -10,7 +10,7 @@
 using namespace std;
 void prepareScene(void)
 {
-	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(app.renderer, 0, 100, 100, 255);
 	SDL_RenderClear(app.renderer);
 }
 
@@ -273,6 +273,11 @@ void drawText(float x, float y, int r, int g, int b,char *format, ...)
 	}
 }
 
+void drawintro(SDL_Texture* introtext)
+{
+	SDL_RenderCopy(app.renderer,introtext,NULL,NULL);
+	SDL_DestroyTexture(introtext);
+}
 
 static void drawHud(void)
 {
@@ -312,10 +317,6 @@ static void drawPod(void)
 	}
 }
 
-void drawintro(SDL_Texture* introtext){
-	SDL_RenderCopy(app.renderer,introtext,NULL,NULL);
-	SDL_DestroyTexture(introtext);
-}
 
 static void draw(void)
 {
