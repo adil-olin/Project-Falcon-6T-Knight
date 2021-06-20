@@ -466,7 +466,13 @@ static void logic(void)
 }
 
 void initstage(void)
-{
+{   
+    load0 = loadTexture("Media/load0.jpg");
+    load1 = loadTexture("Media/load1.jpg");
+    load2 = loadTexture("Media/load2.jpg");
+    title0 = loadTexture("Media/title0.jpg");
+    title1 = loadTexture("Media/title1.jpg");
+    title2 = loadTexture("Media/title2.jpg");
     playerTexture = loadTexture("Media/ship2.png");
     bulletTexture = loadTexture("Media/bullet_level_1.png");
     enemyTexture = loadTexture("Media/enemy_ships_1.png");
