@@ -10,6 +10,8 @@
 #include "movement.hpp"
 #include "stage.hpp"
 #include "Util.hpp"
+#include "text.hpp"
+#include"intro.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -20,19 +22,22 @@ int main(int argc, char* argv[])
     memset(&app, 0, sizeof(App));
 
 	initSDL();
-
-	initstage();
+	
+    initGame();
+	
+    initHighscores();
 
 	then = SDL_GetTicks();
 
 	remainder = 0;
-
+	intro();
 	while (1)
-	{
+	{	
+		
 		prepareScene();
-
+		
 		doInput();
-
+		
 		app.delegate.logic();
 
 		app.delegate.draw();
