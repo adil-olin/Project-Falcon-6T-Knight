@@ -16,17 +16,17 @@ static void spawnenemy(void)
         Entity temp_enemy;
         memset(&temp_enemy,0,sizeof(Entity));
         temp_enemy.side=SIDE_ALIEN;
-        temp_enemy.health=1;
+        temp_enemy.health=1+5*level;
         temp_enemy.w=80;
         temp_enemy.h=77;
         temp_enemy.y=0;
-        temp_enemy.x= rand() % SCREEN_HEIGHT;
+        temp_enemy.x= rand() % SCREEN_WIDTH;
         temp_enemy.texture = enemyTexture;
         //SDL_QueryTexture(temp_enemy.texture, NULL, NULL, &temp_enemy.x, temp_enemy.y);
         temp_enemy.dy = (2 + (rand() % 4));
         temp_enemy.dx = 0;
-		enemyspawntimer = 100 + (rand() % 60);
-        temp_enemy.reload = FPS/2;
+		enemyspawntimer = 100-level + (rand() % 60);
+        temp_enemy.reload = FPS-level;
         stage.Fighter.push_back(temp_enemy);
     }
 }
@@ -44,7 +44,7 @@ static void fireBullet(void)
     temp_bullet.h=53;
     temp_bullet.x += (player.w / 2) - (temp_bullet.w / 2);
 	temp_bullet.y -= temp_bullet.h;
-    temp_bullet.health=1;
+    temp_bullet.health=10+level*10;
     temp_bullet.dx=0;
     temp_bullet.dy= - PLAYER_BULLET_SPEED;
     temp_bullet.texture = bulletTexture;

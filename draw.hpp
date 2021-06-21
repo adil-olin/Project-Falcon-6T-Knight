@@ -392,6 +392,14 @@ void drawText(float x, float y, int r, int g, int b,char *format, ...)
 static void drawHud(void)
 {
 	drawText(10, 10, 255, 255, 255,"SCORE: %03d", stage.score);
+	if(level<25)
+	{
+		drawText(SCREEN_WIDTH/2+400,10,255,255,255,"LEVEL: %d",level+1);
+	}
+	else 
+	{
+		drawText(SCREEN_WIDTH/2+400,10,255,255,255,"LEVEL: UNLIMITED");	
+	}
 }
 
 static void drawHealth()

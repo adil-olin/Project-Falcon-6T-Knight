@@ -45,8 +45,8 @@ void initPlayer(void)
     player.w=100;
     player.h=123;
     player.side=SIDE_PLAYER;
-    player.health=10;
-    player.life=1;
+    player.health=100;
+    player.life=3;
 
     stage.Fighter.push_back(player);
 }
@@ -272,7 +272,7 @@ static void fireAlienBullet(Entity *e)
 
 	tmp_bullet.x = e->x;
 	tmp_bullet.y = e->y;
-	tmp_bullet.health = 10;
+	tmp_bullet.health = 10+level*2;
 	tmp_bullet.texture = alienBulletTexture;
 	tmp_bullet.side = e->side;
 	//SDL_QueryTexture(bullet->texture, NULL, NULL, &bullet->w, &bullet->h);
@@ -297,7 +297,7 @@ static void fireAlienBullet(Entity *e)
     }
     
     stage.Bullet.push_back(tmp_bullet);
-	e->reload = FPS/2 + (rand()%(FPS)/2);
+	e->reload = FPS-level + (rand()%(FPS)/2);
 }
 
 void doEnemy(void)
@@ -419,7 +419,8 @@ void doFighter(void)
 
 void addBossBullets(void)
 {
-    for(int i=1;i<=11;i++)
+    int bulletCount = min(15,level/3+7);
+    for(int i=1;i<=bulletCount;i++)
     {
         Entity tmp_bullet;
 
@@ -436,7 +437,7 @@ void addBossBullets(void)
 
         tmp_bullet.x += (Boss.w / 2) - (tmp_bullet.w / 2);
         tmp_bullet.y += (Boss.h / 2) - (tmp_bullet.h / 2);
-        calcSlope(Boss.x+128*i - 6*128, player.y + (player.h / 2), Boss.x, Boss.y, &tmp_bullet.dx, &tmp_bullet.dy);
+        calcSlope(Boss.x+SCREEN_WIDTH/bulletCount*i - bulletCount/2 * SCREEN_WIDTH/bulletCount, 500, Boss.x, Boss.y, &tmp_bullet.dx, &tmp_bullet.dy);
 
         tmp_bullet.dx *= ALIEN_BULLET_SPEED;
         tmp_bullet.dy *= ALIEN_BULLET_SPEED;
@@ -447,13 +448,13 @@ void addBossBullets(void)
 
 void doBoss(void)
 {
-    if(Boss.y<=350)
+    if(Boss.y<=50)
     {
         Boss.y+=8;
     }
     else
     {
-        if((Boss.x<=200 && Boss.dx<0) || (Boss.x>=1000 && Boss.dx>0))
+        if((Boss.x<=100 && Boss.dx<0) || (Boss.x>=1000 && Boss.dx>0))
         {
             Boss.dx*=(-1);
         }
@@ -462,10 +463,12 @@ void doBoss(void)
     if(Boss.reload--<=0)
     {
         fireAlienBullet(&Boss);
+        Boss.reload = FPS;
+
     }
     if(boss_reload--<=0)
     {
-        boss_reload=FPS*2;
+        boss_reload=FPS*10;
         addBossBullets();
     }
     if(Boss.health<=0)
@@ -474,12 +477,14 @@ void doBoss(void)
     }
     if(Boss.life<=0)
     {
+        stage.score+=50*(level);
         boss_timer=FPS*60;
         isbossnull=true;
         addDebris(&Boss);
         addExplosions(Boss.x,Boss.y,3 + rand()%3);
         AddPod(rand()%10,&Boss);
         level++;
+        level=min(25,level);
     }
 }
 
@@ -489,9 +494,9 @@ void spawnBoss(void)
     Boss.texture = loadTexture("Media/REDBOSS.png");
     Boss.health = 1000 + level*400;
     Boss.side = SIDE_ALIEN;
-    Boss.reload = 20 + rand()%10 - level;
-    Boss.w = 200;
-    Boss.h = 269;
+    Boss.reload = FPS + rand()%10 - level;
+    Boss.w = 150;
+    Boss.h = 202;
     Boss.x = SCREEN_WIDTH - Boss.w/2;
     Boss.y = -300;
     Boss.life = level+1;
@@ -540,8 +545,10 @@ static void logic(void)
 
 	doBullet();
 
-	spawnenemy();
-
+    if(isbossnull)
+    {
+    	spawnenemy();
+    }
     doExplosions();
 
 	doDebris();
@@ -565,7 +572,7 @@ static void logic(void)
 	{
         level=0;
 
-        boss_timer=FPS*2;
+        boss_timer=FPS*60;
 
 		addHighscore(stage.score);
 

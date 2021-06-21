@@ -22,7 +22,7 @@ using namespace std;
 #define Life_Pod    3
 #define FPS 60
 
-#define ALIEN_BULLET_SPEED    8
+#define ALIEN_BULLET_SPEED    6
 #define MAX_STARS   500
 
 #define NUM_HIGHSCORES 8

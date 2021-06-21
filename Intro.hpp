@@ -32,6 +32,7 @@ void ilogic(void)
     {
         if(app.keyboard[i]==1)
         {
+			boss_timer = 60*FPS;
             initstage();
         }
     }
