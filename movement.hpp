@@ -91,10 +91,20 @@ void movePlayer()
             player.dx = PLAYER_SPEED;
             stage.Fighter[0].dx = PLAYER_SPEED;
         }
+        if((app.keyboard[SDL_SCANCODE_LSHIFT] || app.keyboard[SDL_SCANCODE_RSHIFT]))
+        {
+            player.dx*=1.5;
+            player.dy*=1.5;
+            stage.Fighter[0].dy*=1.5;
+            stage.Fighter[0].dx*=1.5;
+        }
 
         if (player.reload == 0)
         {
-            fireBullet();
+            if(!(app.keyboard[SDL_SCANCODE_LSHIFT] || app.keyboard[SDL_SCANCODE_RSHIFT]))
+            {
+                fireBullet();
+            }
         }
 
         player.x += player.dx;
