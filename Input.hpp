@@ -6,6 +6,8 @@
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
 #include<bits/stdc++.h>
+#include<SDL2/SDL_ttf.h>
+#include "structure.hpp"
 using namespace std;
 
 void doKeyDown(SDL_KeyboardEvent *event)
@@ -27,7 +29,7 @@ void doKeyUp(SDL_KeyboardEvent *event)
 void doInput(void)
 {
 	SDL_Event event;
-
+	memset(app.inputText, '\0', MAX_LINE_LENGTH);
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -42,6 +44,10 @@ void doInput(void)
 
 			case SDL_KEYUP:
 				doKeyUp(&event.key);
+				break;
+			
+			case SDL_TEXTINPUT:
+				STRNCPY(app.inputText, event.text.text, MAX_LINE_LENGTH);
 				break;
 
 			default:
