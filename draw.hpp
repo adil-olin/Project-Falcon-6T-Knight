@@ -427,6 +427,11 @@ static void drawPod(void)
 	}
 }
 
+static void drawBoss(void)
+{
+	blit(Boss.texture,Boss.x,Boss.y);
+}
+
 void drawintro(SDL_Texture* introtext)
 {
 	SDL_RenderCopy(app.renderer,introtext,NULL,NULL);
@@ -453,6 +458,10 @@ static void draw(void)
 	drawHealth();
 
 	drawHud();
+	if(!isbossnull)
+	{
+		drawBoss();
+	}
 }
 
 #endif

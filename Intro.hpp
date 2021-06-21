@@ -82,6 +82,7 @@ static void intro()
 	SDL_RenderClear(app.renderer);
 	drawintro(title2);
 	presentScene();
+	
 	MainIntro();
 	
 }

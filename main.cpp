@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
 	initSDL();
 
-    	initGame();
+    initGame();
 
 	init_intro();
 

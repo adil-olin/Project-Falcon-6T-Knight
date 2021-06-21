@@ -105,8 +105,11 @@ struct Stage
 
 } stage;
 
-bool isplayernull = false;
-int enemyspawntimer,stageResetTimer,backgroundY,esc;
+bool isplayernull = false,isbossnull=true;
+
+Entity Boss;
+
+int enemyspawntimer,stageResetTimer,backgroundY,esc,level,boss_reload,boss_timer;
 SDL_Rect r;
 SDL_Texture *alienBulletTexture;
 SDL_Texture *playerTexture;
