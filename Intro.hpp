@@ -39,6 +39,10 @@ void homelogic(void)
 			initstage();
 		}
 	}
+	else
+	{
+		cout<<MouseX<<" "<<MouseY<<endl;
+	}
 }
 
 void homedraw(void)
@@ -50,6 +54,7 @@ void homepage(void)
 	app.delegate.logic=homelogic;
     app.delegate.draw=homedraw;
     memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
+	memset(app.mouse, 0, sizeof(int) * 360);
 
 }
 
@@ -84,6 +89,7 @@ void MainIntro(void)
     app.delegate.logic=ilogic;
     app.delegate.draw=idraw;
     memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
+	memset(app.mouse, 0, sizeof(int) * 360);
 }
 
 static void intro()

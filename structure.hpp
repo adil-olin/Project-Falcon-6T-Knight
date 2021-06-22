@@ -42,7 +42,7 @@ struct App
 	SDL_Window *window;
 	Delegate delegate;
 	int keyboard[MAX_KEYBOARD_KEYS];
-	int mouse[2];
+	int mouse[350];
 	vector<Texture>AllTexture;
 	char inputText[MAX_LINE_LENGTH];
 }app;

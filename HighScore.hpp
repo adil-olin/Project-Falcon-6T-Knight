@@ -11,6 +11,7 @@
 #include "structure.hpp"
 #include "draw.hpp"
 #include "stage.hpp"
+#include "Intro.hpp"
 using namespace std;
 
 Highscores highscores;
@@ -169,7 +170,7 @@ static void hlogic(void)
 		if (app.keyboard[SDL_SCANCODE_SPACE])
 		{
 			
-			initstage();
+			homepage();
 		}
 	}
 
@@ -200,6 +201,7 @@ void initHighscores(void)
 	app.delegate.draw = hdraw;
 
 	memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
+	memset(app.mouse, 0, sizeof(int) * 360);
 }
 
 void initHighscoreTable(void)
