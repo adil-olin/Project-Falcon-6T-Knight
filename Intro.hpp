@@ -18,6 +18,7 @@ void initstage(void);
 
 void init_intro(void)
 {
+	logo = loadTexture("Media/lg1.jpg");
     load0 = loadTexture("Media/load0.jpg");
     load1 = loadTexture("Media/load1.jpg");
     load2 = loadTexture("Media/load2.jpg");
@@ -25,6 +26,7 @@ void init_intro(void)
     title1 = loadTexture("Media/title1.jpg");
     title2 = loadTexture("Media/title2.jpg");
 }
+
 
 void ilogic(void)
 {
@@ -60,7 +62,7 @@ void MainIntro(void)
 
 static void intro()
 {
-	prepareScene();
+	 prepareScene();
 	drawintro(load0);
 	presentScene();
 	SDL_Delay(1000);
@@ -76,14 +78,24 @@ static void intro()
 	drawintro(title0);
 	presentScene();
 	SDL_Delay(1000);
-	SDL_RenderClear(app.renderer);
+	//..............
+	for(int i = 0; i <= 150;i++)
+	{
+		Uint8 a = i;
+		SDL_Rect s = {0,0,1240,740};
+		SDL_Rect d = {447,376,413,315};
+		SDL_SetTextureAlphaMod(logo,a);
+		SDL_RenderCopy(app.renderer,logo,&s,&d);
+		presentScene();
+		SDL_Delay(30);
+	}
+	//.................
 	drawintro(title1);
 	presentScene();
 	SDL_Delay(1000);
 	SDL_RenderClear(app.renderer);
 	drawintro(title2);
 	presentScene();
-	
 	MainIntro();
 	
 }

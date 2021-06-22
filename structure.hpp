@@ -122,6 +122,7 @@ SDL_Texture *lifepod;
 SDL_Texture *healthbar;
 SDL_Texture *healthstat;
 SDL_Texture *Life;
+SDL_Texture *logo;
 SDL_Texture *load0;
 SDL_Texture *load1;
 SDL_Texture *load2;
