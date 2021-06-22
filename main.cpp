@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 		doInput();
 
 		app.delegate.logic();
-
+		
 		app.delegate.draw();
         
 		presentScene();

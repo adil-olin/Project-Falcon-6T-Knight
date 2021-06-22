@@ -42,6 +42,7 @@ struct App
 	SDL_Window *window;
 	Delegate delegate;
 	int keyboard[MAX_KEYBOARD_KEYS];
+	int mouse[2];
 	vector<Texture>AllTexture;
 	char inputText[MAX_LINE_LENGTH];
 }app;
@@ -110,6 +111,7 @@ bool isplayernull = false,isbossnull=true;
 Entity Boss;
 
 int enemyspawntimer,stageResetTimer,backgroundY,esc,level,boss_reload,boss_timer;
+int MouseX, MouseY;
 SDL_Rect r;
 SDL_Texture *alienBulletTexture;
 SDL_Texture *playerTexture;
@@ -123,6 +125,7 @@ SDL_Texture *healthbar;
 SDL_Texture *healthstat;
 SDL_Texture *Life;
 SDL_Texture *logo;
+SDL_Texture *home;
 SDL_Texture *load0;
 SDL_Texture *load1;
 SDL_Texture *load2;

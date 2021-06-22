@@ -19,6 +19,7 @@ void initstage(void);
 void init_intro(void)
 {
 	logo = loadTexture("Media/lg1.jpg");
+	home = loadTexture("Media/home.jpg");
     load0 = loadTexture("Media/load0.jpg");
     load1 = loadTexture("Media/load1.jpg");
     load2 = loadTexture("Media/load2.jpg");
@@ -27,6 +28,30 @@ void init_intro(void)
     title2 = loadTexture("Media/title2.jpg");
 }
 
+void homelogic(void)
+{
+
+	if(MouseX>=400 && MouseX<=855 && MouseY >=117 && MouseY<=220)
+	{
+		if(app.mouse[0]==1)
+		{
+			boss_timer = 60*FPS;
+			initstage();
+		}
+	}
+}
+
+void homedraw(void)
+{
+	SDL_RenderCopy(app.renderer,home,NULL, NULL);
+}
+void homepage(void)
+{
+	app.delegate.logic=homelogic;
+    app.delegate.draw=homedraw;
+    memset(app.keyboard, 0, sizeof(int) * MAX_KEYBOARD_KEYS);
+
+}
 
 void ilogic(void)
 {
@@ -34,8 +59,7 @@ void ilogic(void)
     {
         if(app.keyboard[i]==1)
         {
-			boss_timer = 60*FPS;
-            initstage();
+           homepage();
         }
     }
 }
@@ -53,6 +77,8 @@ void idraw(void)
     SDL_RenderCopy(app.renderer, title1, NULL, &dest);
     SDL_RenderCopy(app.renderer, title2, NULL, &dest);
 }
+
+
 void MainIntro(void)
 {
     app.delegate.logic=ilogic;

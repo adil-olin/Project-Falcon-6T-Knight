@@ -25,6 +25,20 @@ void doKeyUp(SDL_KeyboardEvent *event)
 		app.keyboard[event->keysym.scancode] = 0;
 	}
 }
+void MouseDown(SDL_MouseButtonEvent *e)
+{
+	if(e->button ==SDL_BUTTON_LEFT)
+	{
+		app.mouse[0] = 1;
+	}
+}
+void MouseUP(SDL_MouseButtonEvent *e)
+{
+	if(e->button ==SDL_BUTTON_LEFT)
+	{
+		app.mouse[0] = 0;
+	}
+}
 
 void doInput(void)
 {
@@ -37,6 +51,20 @@ void doInput(void)
 			case SDL_QUIT:
 				exit(0);
 				break;
+
+			case SDL_MOUSEMOTION:
+			MouseX = event.motion.x;
+			MouseY = event.motion.y;
+			//cout << MouseX << " "<< MouseY<<endl;
+			break;
+
+			case SDL_MOUSEBUTTONDOWN:
+
+			MouseDown(&event.button);
+			break;
+
+			case SDL_MOUSEBUTTONUP:
+			MouseUP(&event.button);
 
 			case SDL_KEYDOWN:
 				doKeyDown(&event.key);

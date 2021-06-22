@@ -16,6 +16,9 @@ using namespace std;
 #define MAX_LINE_LENGTH 1024
 
 #define MAX_KEYBOARD_KEYS 350
+#define MAX_MOUSE_BUTTON 2
+#define MOUSELEFT 0
+#define MOUSERIGHT 1
 #define SIDE_PLAYER 0
 #define SIDE_ALIEN  1
 #define Health_Pod  2
