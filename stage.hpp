@@ -11,8 +11,13 @@
 #include "movement.hpp"
 #include "init.hpp"
 #include "draw.hpp"
+#include "structure.hpp"
+#include "HighScore.hpp"
 
 using namespace std;
+void initHighscores(void);
+void addHighscore(int score);
+
 
 static void initStarfield(void)
 {
@@ -22,6 +27,12 @@ static void initStarfield(void)
 		stars[i].y = rand() % SCREEN_HEIGHT;
 		stars[i].speed = 1 + rand() % 8;
 	}
+}
+
+static void initBackground(void)
+{
+    background = loadTexture("Media/Background.jpg");
+    backgroundY = -SCREEN_HEIGHT;
 }
 
 void initPlayer(void)
@@ -34,7 +45,8 @@ void initPlayer(void)
     player.w=100;
     player.h=123;
     player.side=SIDE_PLAYER;
-    player.health=10;
+    player.health=100;
+    player.life=3;
 
     stage.Fighter.push_back(player);
 }
@@ -209,7 +221,23 @@ bool bulletHitfighet(Entity *temp)
             {
                 player.health-=temp->health;
             }
+            else
+            {
+                stage.score++;
+            }
             stage.Fighter[i].health -= temp->health;
+            temp->health = 0;
+        
+            return true;
+        }
+    }
+    if(!isbossnull && temp->side==player.side)
+    {
+        if (collision(temp->x, temp->y, temp->w, temp->h, Boss.x, Boss.y, Boss.w, Boss.h))
+        {
+            stage.score++;
+            
+            Boss.health -= temp->health;
             temp->health = 0;
             return true;
         }
@@ -244,7 +272,7 @@ static void fireAlienBullet(Entity *e)
 
 	tmp_bullet.x = e->x;
 	tmp_bullet.y = e->y;
-	tmp_bullet.health = 1;
+	tmp_bullet.health = 10+level*2;
 	tmp_bullet.texture = alienBulletTexture;
 	tmp_bullet.side = e->side;
 	//SDL_QueryTexture(bullet->texture, NULL, NULL, &bullet->w, &bullet->h);
@@ -269,7 +297,7 @@ static void fireAlienBullet(Entity *e)
     }
     
     stage.Bullet.push_back(tmp_bullet);
-	e->reload = FPS/2 + (rand()%(FPS)/2);
+	e->reload = FPS-level + (rand()%(FPS)/2);
 }
 
 void doEnemy(void)
@@ -281,6 +309,52 @@ void doEnemy(void)
         {
             fireAlienBullet(&stage.Fighter[i]);
         }
+    }
+}
+
+void doPod(void)
+{
+    vector<int>pos;
+    for(int i=0;i<stage.pointpod.size();i++)
+    {
+        stage.pointpod[i].x+=stage.pointpod[i].dx;
+        stage.pointpod[i].y+=stage.pointpod[i].dy;
+        if(collision(player.x,player.y,player.w,player.h,stage.pointpod[i].x,stage.pointpod[i].y,stage.pointpod[i].w,stage.pointpod[i].h))
+        {
+            if(stage.pointpod[i].side==Life_Pod)
+            {
+                player.life=min(5,player.life+1);
+                stage.Fighter[0].life=player.life;
+            }
+            pos.push_back(i);
+        }
+        else if(stage.pointpod[i].y>=SCREEN_HEIGHT)
+        {
+            pos.push_back(i);
+        }
+    }
+    sort(pos.rbegin(),pos.rend());
+    for(int i=0;i<pos.size();i++)
+    {
+        stage.pointpod.erase(stage.pointpod.begin()+pos[i]);
+    }
+}
+
+void AddPod(int x,Entity *e)
+{
+    Entity tmp;
+    tmp.x=e->x;
+    tmp.y=e->y;
+    tmp.dx=0;
+    tmp.dy=5;
+    tmp.side=x;
+    tmp.w=30;
+    tmp.h=30;
+    if(x==Life_Pod)
+    {
+        tmp.texture=lifepod;
+        tmp.health=50;
+        stage.pointpod.push_back(tmp);
     }
 }
 
@@ -308,11 +382,30 @@ void doFighter(void)
         {
             if(stage.Fighter[i]==player)
             {
-                isplayernull=true;
+                stage.Fighter[i].life--;
+                player.life--;
+                if(stage.Fighter[i].life<=0)
+                {
+                    isplayernull=true;
+                    addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+                    addDebris(&stage.Fighter[i]);
+                    pos.push_back(i);
+                }
+                else
+                {
+                    player.health=100;
+                    stage.Fighter[i].health=100;
+                }
             }
-            addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
-            addDebris(&stage.Fighter[i]);
-            pos.push_back(i);
+            else
+            {
+                addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
+                addDebris(&stage.Fighter[i]);
+
+                AddPod(rand()%10,&stage.Fighter[i]);
+
+                pos.push_back(i);
+            }
         }
     }
 
@@ -324,6 +417,94 @@ void doFighter(void)
     }
 }
 
+void addBossBullets(void)
+{
+    int bulletCount = min(15,level/3+7);
+    for(int i=1;i<=bulletCount;i++)
+    {
+        Entity tmp_bullet;
+
+	    memset(&tmp_bullet, 0 , sizeof(Entity));
+
+        tmp_bullet.x = Boss.x;
+        tmp_bullet.y = Boss.y;
+        tmp_bullet.health = 50;
+        tmp_bullet.texture = alienBulletTexture;
+        tmp_bullet.side = Boss.side;
+	//SDL_QueryTexture(bullet->texture, NULL, NULL, &bullet->w, &bullet->h);
+        tmp_bullet.w=30;
+        tmp_bullet.h=53;
+
+        tmp_bullet.x += (Boss.w / 2) - (tmp_bullet.w / 2);
+        tmp_bullet.y += (Boss.h / 2) - (tmp_bullet.h / 2);
+        calcSlope(Boss.x+SCREEN_WIDTH/bulletCount*i - bulletCount/2 * SCREEN_WIDTH/bulletCount, 500, Boss.x, Boss.y, &tmp_bullet.dx, &tmp_bullet.dy);
+
+        tmp_bullet.dx *= ALIEN_BULLET_SPEED;
+        tmp_bullet.dy *= ALIEN_BULLET_SPEED;
+    
+        stage.Bullet.push_back(tmp_bullet);
+    }
+}
+
+void doBoss(void)
+{
+    if(Boss.y<=50)
+    {
+        Boss.y+=8;
+    }
+    else
+    {
+        if((Boss.x<=100 && Boss.dx<0) || (Boss.x>=1000 && Boss.dx>0))
+        {
+            Boss.dx*=(-1);
+        }
+        Boss.x+=Boss.dx;
+    }
+    if(Boss.reload--<=0)
+    {
+        fireAlienBullet(&Boss);
+        Boss.reload = FPS;
+
+    }
+    if(boss_reload--<=0)
+    {
+        boss_reload=FPS*10;
+        addBossBullets();
+    }
+    if(Boss.health<=0)
+    {
+        Boss.life--;
+    }
+    if(Boss.life<=0)
+    {
+        stage.score+=50*(level);
+        boss_timer=FPS*60;
+        isbossnull=true;
+        addDebris(&Boss);
+        addExplosions(Boss.x,Boss.y,3 + rand()%3);
+        AddPod(rand()%10,&Boss);
+        level++;
+        level=min(25,level);
+    }
+}
+
+void spawnBoss(void)
+{
+    isbossnull=false;
+    Boss.texture = loadTexture("Media/REDBOSS.png");
+    Boss.health = 1000 + level*400;
+    Boss.side = SIDE_ALIEN;
+    Boss.reload = FPS + rand()%10 - level;
+    Boss.w = 150;
+    Boss.h = 202;
+    Boss.x = SCREEN_WIDTH - Boss.w/2;
+    Boss.y = -300;
+    Boss.life = level+1;
+    Boss.dy = 8;
+    Boss.dx = 5;
+    boss_reload=FPS*2;
+}
+
 
 static void resetStage(void)
 {
@@ -331,19 +512,25 @@ static void resetStage(void)
     stage.Fighter.clear();
     stage.explosion.clear();
     stage.debris.clear();
+    stage.pointpod.clear();
     memset(&stage,0,sizeof(Stage));
     
+    initfont();
+
 	initPlayer();
 
     initStarfield();
 
     isplayernull=false;
 
+    isbossnull = true;
+
 	enemyspawntimer=0;
 
-    backgroundY = -720;
+    initBackground();
 
 	stageResetTimer = FPS * 3;
+    stage.score = 0;
 }
 
 static void logic(void)
@@ -358,30 +545,57 @@ static void logic(void)
 
 	doBullet();
 
-	spawnenemy();
-
+    if(isbossnull)
+    {
+    	spawnenemy();
+    }
     doExplosions();
 
 	doDebris();
 
+    doPod();
+
+    if(--boss_timer<=0)
+    {
+        boss_timer=max(0,boss_timer);
+        if(isbossnull)
+        {
+            spawnBoss();
+        }
+        else
+        {
+            doBoss();
+        }
+    }
+
     if (isplayernull && --stageResetTimer <= 0)
 	{
-		resetStage();
+        level=0;
+
+        boss_timer=FPS*60;
+
+		addHighscore(stage.score);
+
+		initHighscores();
 	}
 }
 
 void initstage(void)
 {
+    playerTexture = loadTexture("Media/ship2.png");
+    bulletTexture = loadTexture("Media/bullet_level_1.png");
+    enemyTexture = loadTexture("Media/enemy_ships_1.png");
+    alienBulletTexture = loadTexture("Media/enemybullet.png");
+    explosionTexture = loadTexture("Media/explosion.png");
+	
+    healthbar = loadTexture("Media/Health bar.jpg");
+    lifepod = loadTexture("Media/lifepod.png");
+    healthstat = loadTexture("Media/health_stat.png");
+    Life = loadTexture("Media/life.png");
+
     app.delegate.logic = logic;
 	app.delegate.draw = draw;
-
-    playerTexture = loadTexture("ship2.png");
-    bulletTexture = loadTexture("bullet_level_1.png");
-    enemyTexture = loadTexture("enemy_ships_1.png");
-    alienBulletTexture = loadTexture("enemybullet.png");
-    explosionTexture = loadTexture("explosion.png");
-	background = loadTexture("Background.jpg");
-
+    r.x=210;
     resetStage();
 }
 #endif
