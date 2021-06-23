@@ -28,11 +28,11 @@ void init_intro(void)
     title1 = loadTexture("Media/title1.jpg");
     title2 = loadTexture("Media/title2.jpg");
 }
-void Select(int x,int y)
+void Select(int x,int y, int z)
 {
 
 		Uint8 a = 100;
-	 	SDL_Rect d = {x,y,300,40};
+	 	SDL_Rect d = {x,y,z,40};
 		SDL_SetTextureAlphaMod(point,a);
 		SDL_RenderCopy(app.renderer,point,NULL,&d);
 
@@ -40,8 +40,8 @@ void Select(int x,int y)
 
 void homelogic(void)
 {
-
-	if(MouseX>=140 && MouseX<=345 && MouseY >=344 && MouseY<=371)
+	//cout <<MouseX<<" "<<MouseY<<endl;
+	if(MouseX>=149 && MouseX<=385 && MouseY >=262 && MouseY<=295)
 	{
 	//	cout <<MouseX<<" "<<MouseY<<endl;
 		if(app.mouse[0]==1)
@@ -52,7 +52,7 @@ void homelogic(void)
 	}
 
 	//continue
-	else if(MouseX>=139 && MouseX<=328 && MouseY >=391 && MouseY<=415)
+	else if(MouseX>=160 && MouseX<=380 && MouseY >=314 && MouseY<=343)
 	{
 		if(app.mouse[0]==1)
 		{
@@ -61,7 +61,15 @@ void homelogic(void)
 	}
 
 	//ScoreBoard
-	else if(MouseX>=139 && MouseX<=389 && MouseY >=438 && MouseY<=460)
+	else if(MouseX>=156 && MouseX<=390 && MouseY >=365 && MouseY<=395)
+	{
+		if(app.mouse[0]==1)
+		{
+			//
+		}
+	}
+	//instruction
+	else if(MouseX>=140 && MouseX<=390 && MouseY >=410 && MouseY<=450)
 	{
 		if(app.mouse[0]==1)
 		{
@@ -69,7 +77,7 @@ void homelogic(void)
 		}
 	}
 	//Credit
-	else if(MouseX>=136 && MouseX<=280 && MouseY >=484 && MouseY<=504)
+	else if(MouseX>=180 && MouseX<=350 && MouseY >=464 && MouseY<=498)
 	{
 		if(app.mouse[0]==1)
 		{
@@ -77,7 +85,7 @@ void homelogic(void)
 		}
 	}
 	//Quit
-	else if(MouseX>=138 && MouseX<=229 && MouseY >=531 && MouseY<=552)
+	else if(MouseX>=195 && MouseX<=320 && MouseY >=516 && MouseY<=556)
 	{
 		if(app.mouse[0]==1)
 		{
@@ -91,31 +99,36 @@ void homedraw(void)
 {
 
 	SDL_RenderCopy(app.renderer,home,NULL, NULL);
-	if(MouseX>=140 && MouseX<=345 && MouseY >=344 && MouseY<=371)
+	if(MouseX>=149 && MouseX<=385 && MouseY >=262 && MouseY<=295)
 	{
-		Select(130,335);
+		Select(143,258,250);
 	}
 
 	//continue
-	else if(MouseX>=139 && MouseX<=328 && MouseY >=391 && MouseY<=415)
+	else if(MouseX>=160 && MouseX<=380 && MouseY >=314 && MouseY<=343)
 	{
-		Select(130,381);
+		Select(154,310,225);
 	}
 
 	//ScoreBoard
-	else if(MouseX>=139 && MouseX<=389 && MouseY >=438 && MouseY<=460)
+	else if(MouseX>=156 && MouseX<=390 && MouseY >=365 && MouseY<=395)
 	{
-		Select(130,428);
+		Select(150,361,240);
+	}
+	//instruction
+	else if(MouseX>=140 && MouseX<=390 && MouseY >=410 && MouseY<=450)
+	{
+		Select(134,410,265);
 	}
 	//Credit
-	else if(MouseX>=136 && MouseX<=280 && MouseY >=484 && MouseY<=504)
+	else if(MouseX>=180 && MouseX<=350 && MouseY >=464 && MouseY<=498)
 	{
-		Select(130,474);
+		Select(175,460,170);
 	}
 	//Quit
-	else if(MouseX>=138 && MouseX<=229 && MouseY >=531 && MouseY<=552)
+	else if(MouseX>=195 && MouseX<=320 && MouseY >=516 && MouseY<=556)
 	{
-		Select(130,521);
+		Select(189,514,128);
 	}
 }
 void homepage(void)
@@ -166,19 +179,19 @@ static void intro()
 	 prepareScene();
 	drawintro(load0);
 	presentScene();
-	SDL_Delay(1000);
+	SDL_Delay(700);
 	SDL_RenderClear(app.renderer);
 	drawintro(load1);
 	presentScene();
-	SDL_Delay(1000);
+	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(load2);
 	presentScene();
-	SDL_Delay(1000);
+	SDL_Delay(700);
 	SDL_RenderClear(app.renderer);
 	drawintro(title0);
 	presentScene();
-	SDL_Delay(1000);
+	SDL_Delay(200);
 	//..............
 	for(int i = 0; i <= 255;i++)
 	{
@@ -193,7 +206,7 @@ static void intro()
 	//.................
 	drawintro(title1);
 	presentScene();
-	SDL_Delay(1000);
+	SDL_Delay(200);
 	SDL_RenderClear(app.renderer);
 	drawintro(title2);
 	presentScene();
