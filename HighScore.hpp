@@ -14,7 +14,6 @@
 #include "Intro.hpp"
 using namespace std;
 
-Highscores highscores;
 Highscore* newHighscore ;
 int cursorBlink;
 

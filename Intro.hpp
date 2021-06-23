@@ -11,15 +11,16 @@
 #include "defs.hpp"
 #include "stage.hpp"
 #include "draw.hpp"
-
+#include "ScoreBoard.hpp"
 using namespace std;
 
 void initstage(void);
 
 void init_intro(void)
 {
+	point = loadTexture("Media/select.jpg");
 	logo = loadTexture("Media/lg1.jpg");
-	home = loadTexture("Media/home.jpg");
+	home = loadTexture("Media/home1.jpg");
     load0 = loadTexture("Media/load0.jpg");
     load1 = loadTexture("Media/load1.jpg");
     load2 = loadTexture("Media/load2.jpg");
@@ -27,27 +28,95 @@ void init_intro(void)
     title1 = loadTexture("Media/title1.jpg");
     title2 = loadTexture("Media/title2.jpg");
 }
+void Select(int x,int y)
+{
+
+		Uint8 a = 100;
+	 	SDL_Rect d = {x,y,300,40};
+		SDL_SetTextureAlphaMod(point,a);
+		SDL_RenderCopy(app.renderer,point,NULL,&d);
+
+}
 
 void homelogic(void)
 {
 
-	if(MouseX>=400 && MouseX<=855 && MouseY >=117 && MouseY<=220)
+	if(MouseX>=140 && MouseX<=345 && MouseY >=344 && MouseY<=371)
 	{
+	//	cout <<MouseX<<" "<<MouseY<<endl;
 		if(app.mouse[0]==1)
 		{
 			boss_timer = 60*FPS;
 			initstage();
 		}
 	}
-	else
+
+	//continue
+	else if(MouseX>=139 && MouseX<=328 && MouseY >=391 && MouseY<=415)
 	{
-		cout<<MouseX<<" "<<MouseY<<endl;
+		if(app.mouse[0]==1)
+		{
+			//
+		}
 	}
+
+	//ScoreBoard
+	else if(MouseX>=139 && MouseX<=389 && MouseY >=438 && MouseY<=460)
+	{
+		if(app.mouse[0]==1)
+		{
+			//
+		}
+	}
+	//Credit
+	else if(MouseX>=136 && MouseX<=280 && MouseY >=484 && MouseY<=504)
+	{
+		if(app.mouse[0]==1)
+		{
+			//
+		}
+	}
+	//Quit
+	else if(MouseX>=138 && MouseX<=229 && MouseY >=531 && MouseY<=552)
+	{
+		if(app.mouse[0]==1)
+		{
+			exit(0);
+		}
+	}
+
 }
 
 void homedraw(void)
 {
+
 	SDL_RenderCopy(app.renderer,home,NULL, NULL);
+	if(MouseX>=140 && MouseX<=345 && MouseY >=344 && MouseY<=371)
+	{
+		Select(130,335);
+	}
+
+	//continue
+	else if(MouseX>=139 && MouseX<=328 && MouseY >=391 && MouseY<=415)
+	{
+		Select(130,381);
+	}
+
+	//ScoreBoard
+	else if(MouseX>=139 && MouseX<=389 && MouseY >=438 && MouseY<=460)
+	{
+		Select(130,428);
+	}
+	//Credit
+	else if(MouseX>=136 && MouseX<=280 && MouseY >=484 && MouseY<=504)
+	{
+		Select(130,474);
+	}
+	//Quit
+	else if(MouseX>=138 && MouseX<=229 && MouseY >=531 && MouseY<=552)
+	{
+		Select(130,521);
+	}
 }
 void homepage(void)
 {
@@ -111,7 +180,7 @@ static void intro()
 	presentScene();
 	SDL_Delay(1000);
 	//..............
-	for(int i = 0; i <= 150;i++)
+	for(int i = 0; i <= 255;i++)
 	{
 		Uint8 a = i;
 		SDL_Rect s = {0,0,1240,740};
@@ -119,7 +188,7 @@ static void intro()
 		SDL_SetTextureAlphaMod(logo,a);
 		SDL_RenderCopy(app.renderer,logo,&s,&d);
 		presentScene();
-		SDL_Delay(30);
+		SDL_Delay(10);
 	}
 	//.................
 	drawintro(title1);
@@ -129,7 +198,7 @@ static void intro()
 	drawintro(title2);
 	presentScene();
 	MainIntro();
-	
+
 }
 
 

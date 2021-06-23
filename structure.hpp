@@ -31,10 +31,11 @@ struct Highscore
 	int score;
 };
 
+
 struct Highscores
 {
 	Highscore highscore[NUM_HIGHSCORES];
-};
+}highscores;
 
 struct App
 {
@@ -132,6 +133,7 @@ SDL_Texture *load2;
 SDL_Texture *title0;
 SDL_Texture *title1;
 SDL_Texture *title2;
+SDL_Texture *point;
 
 
 int highscore = 0;

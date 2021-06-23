@@ -65,6 +65,7 @@ void doInput(void)
 
 			case SDL_MOUSEBUTTONUP:
 			MouseUP(&event.button);
+			break;
 
 			case SDL_KEYDOWN:
 				doKeyDown(&event.key);
