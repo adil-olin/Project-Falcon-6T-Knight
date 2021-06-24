@@ -52,7 +52,7 @@ struct Entity
 {
 	float x;
 	float y;
-    int health,reload,w,h,life;
+    int health,reload,w,h,life,energy;
 	float dx,dy;
 	int side;
 	SDL_Texture *texture;
@@ -109,7 +109,7 @@ struct Stage
 
 bool isplayernull = false,isbossnull=true, isstarted;
 
-Entity Boss;
+Entity Boss,ultEnergy;
 
 int enemyspawntimer,stageResetTimer,backgroundY,esc,level,boss_reload,boss_timer,continue_timer;
 int MouseX, MouseY;
@@ -138,6 +138,10 @@ SDL_Texture *instruction;
 SDL_Texture *one;
 SDL_Texture *two;
 SDL_Texture *three;
+SDL_Texture *Ult;
+SDL_Texture *engr;
+SDL_Texture *ultpower;
+
 
 
 int highscore = 0;

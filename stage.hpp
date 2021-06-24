@@ -47,6 +47,7 @@ void initPlayer(void)
     player.side=SIDE_PLAYER;
     player.health=100;
     player.life=3;
+    player.energy=3;
 
     stage.Fighter.push_back(player);
 }
@@ -124,6 +125,39 @@ static void addDebris(Entity *e)
             stage.debris.push_back(temp);
 		}
 	}
+}
+void spwanUlt(void)
+{
+    ultEnergy.texture=ultpower;   
+    ultEnergy.health=200;
+    ultEnergy.w=1280;
+    ultEnergy.h=123;
+    ultEnergy.dx=0;
+    ultEnergy.dy=-5;
+    ultEnergy.x=0;
+    ultEnergy.y=player.y;
+    ultEnergy.side=player.side;
+}
+void doultEnergy(void)
+{
+    ultEnergy.x+=ultEnergy.dx;
+    ultEnergy.y+=ultEnergy.dy;
+    for(int i=0; i<stage.Fighter.size();i++)
+    {
+        if(stage.Fighter[i].side!=ultEnergy.side && collision(stage.Fighter[i].x,stage.Fighter[i].y,stage.Fighter[i].w,stage.Fighter[i].h,ultEnergy.x,ultEnergy.y,ultEnergy.w,ultEnergy.h))
+        {
+            stage.Fighter[i].health=0;
+            stage.score++;
+        }
+
+    }
+    if(ultEnergy.y<=-200){
+        ultEnergy.health=0;
+        if(!isbossnull)
+        {
+            Boss.health-=50;
+        }
+    }
 }
 
 static void addExplosions(int x, int y, int num)
@@ -326,6 +360,11 @@ void doPod(void)
                 player.life=min(5,player.life+1);
                 stage.Fighter[0].life=player.life;
             }
+            else if(stage.pointpod[i].side==Ult_Pod)
+            {
+                player.energy=min(3,player.energy++);
+                stage.Fighter[0].energy=player.energy;   
+            }
             pos.push_back(i);
         }
         else if(stage.pointpod[i].y>=SCREEN_HEIGHT)
@@ -354,6 +393,12 @@ void AddPod(int x,Entity *e)
     {
         tmp.texture=lifepod;
         tmp.health=50;
+        stage.pointpod.push_back(tmp);
+    }
+    else if(x==Ult_Pod)
+    {
+        tmp.texture=Ult;
+        
         stage.pointpod.push_back(tmp);
     }
 }
@@ -402,7 +447,7 @@ void doFighter(void)
                 addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
                 addDebris(&stage.Fighter[i]);
 
-                AddPod(rand()%10,&stage.Fighter[i]);
+                AddPod(rand()%(40-level),&stage.Fighter[i]);
 
                 pos.push_back(i);
             }
@@ -471,6 +516,7 @@ void doBoss(void)
         boss_reload=FPS*10;
         addBossBullets();
     }
+    
     if(Boss.health<=0)
     {
         Boss.life--;
@@ -558,6 +604,18 @@ static void logic(void)
 	    doDebris();
 
         doPod();
+        
+        if(ultEnergy.health>0)
+        {
+            doultEnergy();
+        }
+
+        if(player.energy==3 && app.keyboard[SDL_SCANCODE_SPACE])
+        {
+            player.energy=0;
+            stage.Fighter[0].energy=0;
+            spwanUlt();
+        }
 
         if(isbossnull)
         {
@@ -609,6 +667,9 @@ void initstage(void)
     one=loadTexture("Media/one.png");
     two=loadTexture("Media/two.png");
     three=loadTexture("Media/three.png");
+    Ult=loadTexture("Media/ult.png");
+    engr=loadTexture("Media/energy.png");
+    ultpower=loadTexture("Media/ultpower.png");
 
     app.delegate.logic = logic;
 	app.delegate.draw = draw;

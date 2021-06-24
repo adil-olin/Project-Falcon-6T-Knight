@@ -435,7 +435,14 @@ static void drawPod(void)
 		blit(tmp.texture,tmp.x,tmp.y);
 	}
 }
-
+static void drawEnergy(void)
+{	
+	int xx=5;
+	for(int i=0; i<player.energy;i++){
+		blit(engr,xx,115);
+		xx=xx+62;		
+	}
+}
 static void drawBoss(void)
 {
 	blit(Boss.texture,Boss.x,Boss.y);
@@ -466,7 +473,13 @@ static void draw(void)
 
 	drawHealth();
 
+	drawEnergy();
+
 	drawHud();
+	if(ultEnergy.health>0)
+	{
+		blit(ultEnergy.texture,ultEnergy.x,ultEnergy.y);
+	}
 	if(!isbossnull)
 	{
 		drawBoss();

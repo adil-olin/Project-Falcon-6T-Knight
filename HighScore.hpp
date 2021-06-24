@@ -225,6 +225,12 @@ void initHighscoreTable(void)
 			STRNCPY(highscores.highscore[i].name, s , MAX_SCORE_NAME_LENGTH);
 			highscores.highscore[i].score = sc;
 		}
+		/*for(int j=strlen(highscores.highscore[i].name);j<MAX_SCORE_NAME_LENGTH;j++)
+		{
+			highscores.highscore[i].name[j]=' ';
+		}
+		highscores.highscore[i].name[MAX_SCORE_NAME_LENGTH-1]='\0';
+		*/
 	}
 
 	newHighscore = NULL;
