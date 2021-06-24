@@ -14,6 +14,7 @@
 #include "text.hpp"
 #include "Intro.hpp"
 #include "instruction.hpp"
+#include "credit.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])

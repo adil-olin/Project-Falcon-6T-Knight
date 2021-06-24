@@ -12,6 +12,7 @@
 #include "text.hpp"
 #include "HighScore.hpp"
 #include "instruction.hpp"
+#include"credit.hpp"
 using namespace std;
 
 void initSDL(void)
@@ -57,7 +58,7 @@ void initGame(void)
 	
 	init_instruction();
 	//initSounds();
-
+	init_credit();
 	initfont();
 
 	initHighscoreTable();

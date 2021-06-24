@@ -660,7 +660,7 @@ void initstage(void)
     alienBulletTexture = loadTexture("Media/enemybullet.png");
     explosionTexture = loadTexture("Media/explosion.png");
 	
-    healthbar = loadTexture("Media/Health bar.jpg");
+    healthbar = loadTexture("Media/Health bar.png");
     lifepod = loadTexture("Media/lifepod.png");
     healthstat = loadTexture("Media/health_stat.png");
     Life = loadTexture("Media/life.png");

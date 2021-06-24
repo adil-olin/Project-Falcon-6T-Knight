@@ -135,6 +135,7 @@ SDL_Texture *title1;
 SDL_Texture *title2;
 SDL_Texture *point;
 SDL_Texture *instruction;
+SDL_Texture *crdt;
 SDL_Texture *one;
 SDL_Texture *two;
 SDL_Texture *three;

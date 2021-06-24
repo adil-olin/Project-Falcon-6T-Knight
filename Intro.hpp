@@ -13,12 +13,14 @@
 #include "draw.hpp"
 #include "HighScore.hpp"
 #include "instruction.hpp"
+#include "credit.hpp"
 
 
 using namespace std;
 
 void initstage(void);
 void initHighscores(void);
+void credit(void);
 
 void init_intro(void)
 {
@@ -86,7 +88,7 @@ void homelogic(void)
 	{
 		if(app.mouse[0]==1)
 		{
-			//
+			Credit();
 		}
 	}
 	//Quit
