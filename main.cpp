@@ -1,27 +1,35 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
+#include "init.hpp"
 #include "defs.hpp"
 #include "structure.hpp"
-#include "init.hpp"
+#include "stage.hpp"
 #include "Input.hpp"
 #include "draw.hpp"
 #include "movement.hpp"
-#include "stage.hpp"
 #include "Util.hpp"
+#include "text.hpp"
+#include "Intro.hpp"
+#include "instruction.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])
 {
 	long then;
 	float remainder;
-
-    memset(&app, 0, sizeof(App));
+	isstarted=false;
+   	memset(&app, 0, sizeof(App));
 
 	initSDL();
 
-	initstage();
+    initGame();
+
+	init_intro();
+
+	intro();
 
 	then = SDL_GetTicks();
 
@@ -29,12 +37,11 @@ int main(int argc, char* argv[])
 
 	while (1)
 	{
-		prepareScene();
-
+		
 		doInput();
 
 		app.delegate.logic();
-
+		
 		app.delegate.draw();
         
 		presentScene();

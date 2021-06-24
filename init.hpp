@@ -5,9 +5,13 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
-#include "stage.hpp"
 #include "draw.hpp"
+#include "stage.hpp"
+#include "text.hpp"
+#include "HighScore.hpp"
+#include "instruction.hpp"
 using namespace std;
 
 void initSDL(void)
@@ -43,6 +47,24 @@ void initSDL(void)
 		cout<<"Failed to create renderer: "<<SDL_GetError()<<endl;
 		exit(1);
 	}
+}
+
+void initGame(void)
+{
+	initBackground();
+
+	initStarfield();
+	
+	init_instruction();
+	//initSounds();
+
+	initfont();
+
+	initHighscoreTable();
+
+	// loadMusic("music/Mercury.ogg");
+
+	// playMusic(1);
 }
 
 #endif

@@ -5,7 +5,9 @@
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
 #include<bits/stdc++.h>
+#include "defs.hpp"
 using namespace std;
 
 struct Delegate
@@ -14,6 +16,26 @@ struct Delegate
 	void (*draw)(void);
 };
 
+struct Texture 
+{
+	char name[MAX_NAME_LENGTH];
+	SDL_Texture *texture;
+	Texture *next;
+};
+
+
+struct Highscore
+{
+	int recent;
+	char name[MAX_SCORE_NAME_LENGTH];
+	int score;
+};
+
+
+struct Highscores
+{
+	Highscore highscore[NUM_HIGHSCORES];
+}highscores;
 
 struct App
 {
@@ -21,13 +43,16 @@ struct App
 	SDL_Window *window;
 	Delegate delegate;
 	int keyboard[MAX_KEYBOARD_KEYS];
+	int mouse[350];
+	vector<Texture>AllTexture;
+	char inputText[MAX_LINE_LENGTH];
 }app;
 
 struct Entity
 {
 	float x;
 	float y;
-    int health,reload,w,h;
+    int health,reload,w,h,life;
 	float dx,dy;
 	int side;
 	SDL_Texture *texture;
@@ -75,20 +100,46 @@ struct Stage
 	//bullet will contain all type of bullet from enemy or ally
 	//Fighter will do same for enemy and the player. Here player will act as reference
 
-	vector<Entity> Bullet,Fighter;
+	vector<Entity> Bullet,Fighter,pointpod;
 	vector<Explosion> explosion;
 	vector<Debris> debris;
+	int score;
 
 } stage;
 
-bool isplayernull = false;
-int enemyspawntimer,stageResetTimer,backgroundY;
+bool isplayernull = false,isbossnull=true, isstarted;
 
+Entity Boss;
+
+int enemyspawntimer,stageResetTimer,backgroundY,esc,level,boss_reload,boss_timer,continue_timer;
+int MouseX, MouseY;
+SDL_Rect r;
 SDL_Texture *alienBulletTexture;
 SDL_Texture *playerTexture;
 SDL_Texture *bulletTexture;
 SDL_Texture *enemyTexture;
 SDL_Texture *explosionTexture;
 SDL_Texture *background;
+SDL_Texture *fontTexture;
+SDL_Texture *lifepod;
+SDL_Texture *healthbar;
+SDL_Texture *healthstat;
+SDL_Texture *Life;
+SDL_Texture *logo;
+SDL_Texture *home;
+SDL_Texture *load0;
+SDL_Texture *load1;
+SDL_Texture *load2;
+SDL_Texture *title0;
+SDL_Texture *title1;
+SDL_Texture *title2;
+SDL_Texture *point;
+SDL_Texture *instruction;
+SDL_Texture *one;
+SDL_Texture *two;
+SDL_Texture *three;
+
+
+int highscore = 0;
 
 #endif
