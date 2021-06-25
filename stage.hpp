@@ -5,7 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "Util.hpp"
 #include "movement.hpp"
@@ -252,11 +252,13 @@ bool bulletHitfighet(Entity *temp)
         {
             
             if(stage.Fighter[i]==player)
-            {
+            {   
+                Mix_PlayChannel(-1,ebullet,0);
                 player.health-=temp->health;
             }
             else
             {
+                Mix_PlayChannel(-1,bulletmus,0);
                 stage.score++;
             }
             stage.Fighter[i].health -= temp->health;
@@ -270,7 +272,7 @@ bool bulletHitfighet(Entity *temp)
         if (collision(temp->x, temp->y, temp->w, temp->h, Boss.x, Boss.y, Boss.w, Boss.h))
         {
             stage.score++;
-            
+            Mix_PlayChannel(1,bulletmus,0);
             Boss.health -= temp->health;
             temp->health = 0;
             return true;
@@ -354,15 +356,17 @@ void doPod(void)
         stage.pointpod[i].x+=stage.pointpod[i].dx;
         stage.pointpod[i].y+=stage.pointpod[i].dy;
         if(collision(player.x,player.y,player.w,player.h,stage.pointpod[i].x,stage.pointpod[i].y,stage.pointpod[i].w,stage.pointpod[i].h))
-        {
+        {   
+            Mix_PlayChannel(-1,podsound,0);
             if(stage.pointpod[i].side==Life_Pod)
             {
                 player.life=min(5,player.life+1);
                 stage.Fighter[0].life=player.life;
             }
             else if(stage.pointpod[i].side==Ult_Pod)
-            {
-                player.energy=min(3,player.energy++);
+            {   
+                player.energy++;
+                player.energy=min(3,player.energy);
                 stage.Fighter[0].energy=player.energy;   
             }
             pos.push_back(i);
@@ -430,8 +434,9 @@ void doFighter(void)
                 stage.Fighter[i].life--;
                 player.life--;
                 if(stage.Fighter[i].life<=0)
-                {
+                {   
                     isplayernull=true;
+                    Mix_PlayChannel(-1,Player_death,0);
                     addExplosions(stage.Fighter[i].x,stage.Fighter[i].y,3+rand()%3);
                     addDebris(&stage.Fighter[i]);
                     pos.push_back(i);
@@ -518,11 +523,14 @@ void doBoss(void)
     }
     
     if(Boss.health<=0)
-    {
+    {   
+        Boss.health = 1000 + level*400;
         Boss.life--;
     }
+    cout<<Boss.life<<endl;
     if(Boss.life<=0)
     {
+        Mix_PlayChannel(-1,bossdeath,0);
         stage.score+=50*(level);
         boss_timer=FPS*60;
         isbossnull=true;
@@ -536,6 +544,7 @@ void doBoss(void)
 
 void spawnBoss(void)
 {
+    Mix_PlayChannel(-1,boss,0);
     isbossnull=false;
     Boss.texture = loadTexture("Media/REDBOSS.png");
     Boss.health = 1000 + level*400;
@@ -545,7 +554,7 @@ void spawnBoss(void)
     Boss.h = 202;
     Boss.x = SCREEN_WIDTH - Boss.w/2;
     Boss.y = -300;
-    Boss.life = level+1;
+    Boss.life = 1+(level/3);
     Boss.dy = 8;
     Boss.dx = 5;
     boss_reload=FPS*2;
@@ -584,6 +593,7 @@ static void logic(void)
 {   
     if(app.keyboard[SDL_SCANCODE_ESCAPE])
     {
+    	Mix_PlayMusic(homemus,-1);
         homepage();
     }
 
@@ -614,6 +624,7 @@ static void logic(void)
         {
             player.energy=0;
             stage.Fighter[0].energy=0;
+            Mix_PlayChannel(-1,Ult_sound,0);
             spwanUlt();
         }
 
@@ -639,7 +650,7 @@ static void logic(void)
     }
 
     if (isplayernull && --stageResetTimer <= 0)
-	{   
+	{       
         isstarted=false;
 
         level=0;
@@ -654,6 +665,7 @@ static void logic(void)
 
 void initstage(void)
 {
+    
     playerTexture = loadTexture("Media/ship2.png");
     bulletTexture = loadTexture("Media/bullet_level_1.png");
     enemyTexture = loadTexture("Media/enemy_ships_1.png");
@@ -664,12 +676,14 @@ void initstage(void)
     lifepod = loadTexture("Media/lifepod.png");
     healthstat = loadTexture("Media/health_stat.png");
     Life = loadTexture("Media/life.png");
+    BLife = loadTexture("Media/Blife.png");
     one=loadTexture("Media/one.png");
     two=loadTexture("Media/two.png");
     three=loadTexture("Media/three.png");
     Ult=loadTexture("Media/ult.png");
     engr=loadTexture("Media/energy.png");
     ultpower=loadTexture("Media/ultpower.png");
+    Mix_HaltMusic();
 
     app.delegate.logic = logic;
 	app.delegate.draw = draw;

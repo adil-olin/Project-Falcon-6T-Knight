@@ -4,8 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
-#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "structure.hpp"
 #include "defs.hpp"
@@ -23,16 +22,25 @@ void initHighscores(void);
 void credit(void);
 
 void init_intro(void)
-{
+{	
+	Cursor_sound= Mix_LoadWAV("Media/Music/click.ogg");
+	homemus = Mix_LoadMUS("Media/Music/homemus.mp3");
+	bulletmus = Mix_LoadWAV("Media/Music/explode4.ogg");
+	ebullet = Mix_LoadWAV("Media/Music/laser.ogg");
+	podsound = Mix_LoadWAV("Media/Music/ebullet.ogg");
+	boss = Mix_LoadWAV("Media/Music/boss.ogg");
+	bossdeath = Mix_LoadWAV("Media/Music/explode.ogg");
+	Player_death = Mix_LoadWAV("Media/Music/cloak.ogg");
+	Ult_sound = Mix_LoadWAV("Media/Music/Ult_sound.ogg");
 	point = loadTexture("Media/select.jpg");
-	logo = loadTexture("Media/lg1.jpg");
+	logo = IMG_LoadTexture(app.renderer,"Media/lg1.png");
 	home = loadTexture("Media/home1.jpg");
-    load0 = loadTexture("Media/load0.jpg");
-    load1 = loadTexture("Media/load1.jpg");
-    load2 = loadTexture("Media/load2.jpg");
-    title0 = loadTexture("Media/title0.jpg");
-    title1 = loadTexture("Media/title1.jpg");
-    title2 = loadTexture("Media/title2.jpg");
+    	load0 = loadTexture("Media/load0.jpg");
+    	load1 = loadTexture("Media/load1.jpg");
+    	load2 = loadTexture("Media/load2.jpg");
+    	title0 = loadTexture("Media/title0.jpg");
+    	title1 = loadTexture("Media/title1.jpg");
+    	title2 = loadTexture("Media/title2.jpg");
 }
 void Select(int x,int y, int z)
 {
@@ -53,6 +61,7 @@ void homelogic(void)
 		if(app.mouse[0]==1)
 		{	
 			isstarted=false;
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			boss_timer = 60*FPS;
 			initstage();
 		}
@@ -62,7 +71,9 @@ void homelogic(void)
 	else if(MouseX>=160 && MouseX<=380 && MouseY >=314 && MouseY<=343)
 	{
 		if(app.mouse[0]==1 && isstarted)
-		{	continue_timer=FPS*3;
+		{	
+			Mix_PlayChannel(-1,Cursor_sound,0);
+			continue_timer=FPS*3;
 			initstage();
 		}
 	}
@@ -71,7 +82,8 @@ void homelogic(void)
 	else if(MouseX>=156 && MouseX<=390 && MouseY >=365 && MouseY<=395)
 	{
 		if(app.mouse[0]==1)
-		{
+		{	
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			initHighscores();
 		}
 	}
@@ -79,23 +91,27 @@ void homelogic(void)
 	else if(MouseX>=140 && MouseX<=390 && MouseY >=410 && MouseY<=450)
 	{
 		if(app.mouse[0]==1)
-		{
+		{	
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			Instruction();
 		}
-	}
+	} 
 	//Credit
 	else if(MouseX>=180 && MouseX<=350 && MouseY >=464 && MouseY<=498)
 	{
 		if(app.mouse[0]==1)
-		{
+		{	
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			Credit();
 		}
 	}
+	
 	//Quit
 	else if(MouseX>=195 && MouseX<=320 && MouseY >=516 && MouseY<=556)
 	{
 		if(app.mouse[0]==1)
-		{
+		{	
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			exit(0);
 		}
 	}
@@ -107,7 +123,7 @@ void homedraw(void)
 
 	SDL_RenderCopy(app.renderer,home,NULL, NULL);
 	if(MouseX>=149 && MouseX<=385 && MouseY >=262 && MouseY<=295)
-	{
+	{	
 		Select(143,258,250);
 	}
 
@@ -189,7 +205,7 @@ static void intro()
 	 prepareScene();
 	drawintro(load0);
 	presentScene();
-	SDL_Delay(700);
+	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(load1);
 	presentScene();
@@ -197,9 +213,10 @@ static void intro()
 	SDL_RenderClear(app.renderer);
 	drawintro(load2);
 	presentScene();
-	SDL_Delay(700);
+	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(title0);
+	Mix_PlayMusic(homemus,-1);
 	presentScene();
 	SDL_Delay(200);
 	//..............
@@ -211,7 +228,7 @@ static void intro()
 		SDL_SetTextureAlphaMod(logo,a);
 		SDL_RenderCopy(app.renderer,logo,&s,&d);
 		presentScene();
-		SDL_Delay(10);
+		SDL_Delay(9);
 	}
 	//.................
 	drawintro(title1);

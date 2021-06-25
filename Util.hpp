@@ -4,9 +4,8 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
-#include<SDL2/SDL_ttf.h>
 using namespace std;
 
 bool collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)

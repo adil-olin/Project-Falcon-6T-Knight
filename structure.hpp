@@ -4,8 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
-#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 using namespace std;
@@ -125,6 +124,7 @@ SDL_Texture *lifepod;
 SDL_Texture *healthbar;
 SDL_Texture *healthstat;
 SDL_Texture *Life;
+SDL_Texture *BLife;
 SDL_Texture *logo;
 SDL_Texture *home;
 SDL_Texture *load0;
@@ -142,6 +142,18 @@ SDL_Texture *three;
 SDL_Texture *Ult;
 SDL_Texture *engr;
 SDL_Texture *ultpower;
+Mix_Music *homemus;
+Mix_Chunk *bulletmus;
+Mix_Chunk *ebullet;
+Mix_Chunk *podsound;
+Mix_Chunk *lifemus;
+Mix_Chunk *ultmus;
+Mix_Chunk *bosspowmus;
+Mix_Chunk *boss;
+Mix_Chunk *bossdeath;
+Mix_Chunk *Cursor_sound;
+Mix_Chunk *Player_death;
+Mix_Chunk *Ult_sound;
 
 
 

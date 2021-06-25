@@ -4,8 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
-#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 #include "structure.hpp"
@@ -168,7 +167,7 @@ static void hlogic(void)
 			}
 		if (app.keyboard[SDL_SCANCODE_ESCAPE] )
 		{
-			
+			Mix_PlayChannel(-1,Cursor_sound,0);
 			homepage();
 		}
 	}

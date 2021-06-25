@@ -4,7 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "text.hpp"
 using namespace std;
@@ -381,6 +381,24 @@ void drawText(float x, float y, int r, int g, int b,char *format, ...)
 			rect.h = GLYPH_HEIGHT;
 			x += 5;
 		}
+		else if(c=='%')
+		{
+
+			rect.x = 550;
+			rect.y = 1845;
+			blitFont(fontTexture, &rect, x, y,35,55);
+			x += GLYPH_WIDTH;
+		}
+		else if(c=='%')
+		{
+
+			rect.x = 550;
+			rect.y = 1845;
+			blitFont(fontTexture, &rect, x, y,35,55);
+			x += GLYPH_WIDTH;
+		}
+		
+		
 		 
 		
 		
@@ -400,6 +418,18 @@ static void drawHud(void)
 	else 
 	{
 		drawText(SCREEN_WIDTH/2+400,10,150,150,0,"LEVEL : UNLIMITED");	
+	}
+	if(!isbossnull)
+	{
+		drawText(SCREEN_WIDTH/2+300,70,150,0,0,"BOSS : %d%%",Boss.health*100/(1000 + level*400));	
+		float x,y;
+		y=100;
+		x=SCREEN_WIDTH-60;
+		for(int i = 0; i < Boss.life; i++)
+		{
+			blit(BLife,x,y);
+			x-=60;
+		}	
 	}
 }
 

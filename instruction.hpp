@@ -4,8 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
-#include<SDL2/SDL_timer.h>
-#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "structure.hpp"
 #include "defs.hpp"
@@ -27,7 +26,8 @@ void instlogic(void)
     if(MouseX>=1071 && MouseX<=1248 && MouseY >=328 && MouseY<=376)
     {
             if(app.mouse[0]==1)
-            {
+            {   
+                Mix_PlayChannel(-1,Cursor_sound,0);
                 boss_timer = 60*FPS;
 			    initstage();
             }
@@ -36,7 +36,8 @@ void instlogic(void)
     else if(MouseX>=1075 && MouseX<=1253&& MouseY >=428 && MouseY<=476)
 	{
 		if(app.mouse[0]==1)
-		{
+		{   
+            Mix_PlayChannel(-1,Cursor_sound,0);
             SDL_RenderClear(app.renderer);
 			homepage();
 		}
