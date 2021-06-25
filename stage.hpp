@@ -546,7 +546,18 @@ void spawnBoss(void)
 {
     Mix_PlayChannel(-1,boss,0);
     isbossnull=false;
-    Boss.texture = loadTexture("Media/REDBOSS.png");
+    //Boss.texture = loadTexture("Media/REDBOSS.png");
+    //
+    if(level%3==0){
+        Boss.texture = loadTexture("Media/REDBOSS.png");
+    }
+    else if(level%3==1){
+        Boss.texture = loadTexture("Media/REDBOSS1.png");
+    }
+    else{
+        Boss.texture = loadTexture("Media/REDBOSS2.png");
+    }
+    //
     Boss.health = 1000 + level*400;
     Boss.side = SIDE_ALIEN;
     Boss.reload = FPS + rand()%10 - level;
