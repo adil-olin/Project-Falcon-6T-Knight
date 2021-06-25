@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "defs.hpp"
 using namespace std;
@@ -141,6 +142,15 @@ SDL_Texture *three;
 SDL_Texture *Ult;
 SDL_Texture *engr;
 SDL_Texture *ultpower;
+Mix_Music *homemus;
+Mix_Chunk *bulletmus;
+Mix_Chunk *ebulletmus;
+Mix_Chunk *lifemus;
+Mix_Chunk *ultmus;
+Mix_Chunk *bosspowmus;
+Mix_Chunk *boss;
+Mix_Chunk *bossdeath;
+
 
 
 

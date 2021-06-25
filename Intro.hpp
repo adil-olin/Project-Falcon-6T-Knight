@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "structure.hpp"
 #include "defs.hpp"
@@ -22,15 +23,20 @@ void credit(void);
 
 void init_intro(void)
 {
+	homemus = Mix_LoadMUS("Media/Music/homemus.mp3");
+	bulletmus = Mix_LoadWAV("Media/Music/pbullet.ogg");
+	ebulletmus = Mix_LoadWAV("Media/Music/ebullet.ogg");
+	boss = Mix_LoadWAV("Media/Music/boss.ogg");
+	bossdeath = Mix_LoadWAV("Media/Music/bossdeath.ogg");
 	point = loadTexture("Media/select.jpg");
 	logo = IMG_LoadTexture(app.renderer,"Media/lg1.png");
 	home = loadTexture("Media/home1.jpg");
-    load0 = loadTexture("Media/load0.jpg");
-    load1 = loadTexture("Media/load1.jpg");
-    load2 = loadTexture("Media/load2.jpg");
-    title0 = loadTexture("Media/title0.jpg");
-    title1 = loadTexture("Media/title1.jpg");
-    title2 = loadTexture("Media/title2.jpg");
+    	load0 = loadTexture("Media/load0.jpg");
+    	load1 = loadTexture("Media/load1.jpg");
+    	load2 = loadTexture("Media/load2.jpg");
+    	title0 = loadTexture("Media/title0.jpg");
+    	title1 = loadTexture("Media/title1.jpg");
+    	title2 = loadTexture("Media/title2.jpg");
 }
 void Select(int x,int y, int z)
 {
@@ -198,6 +204,7 @@ static void intro()
 	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(title0);
+	Mix_PlayMusic(homemus,-1);
 	presentScene();
 	SDL_Delay(200);
 	//..............

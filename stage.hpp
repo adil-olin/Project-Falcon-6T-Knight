@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<SDL2/SDL_mixer.h>
 #include<bits/stdc++.h>
 #include "Util.hpp"
 #include "movement.hpp"
@@ -252,10 +253,12 @@ bool bulletHitfighet(Entity *temp)
             
             if(stage.Fighter[i]==player)
             {
+                Mix_PlayChannel(-1,ebulletmus,0);
                 player.health-=temp->health;
             }
             else
             {
+                Mix_PlayChannel(-1,bulletmus,0);
                 stage.score++;
             }
             stage.Fighter[i].health -= temp->health;
@@ -269,7 +272,7 @@ bool bulletHitfighet(Entity *temp)
         if (collision(temp->x, temp->y, temp->w, temp->h, Boss.x, Boss.y, Boss.w, Boss.h))
         {
             stage.score++;
-            
+            Mix_PlayChannel(1,bulletmus,0);
             Boss.health -= temp->health;
             temp->health = 0;
             return true;
@@ -522,6 +525,7 @@ void doBoss(void)
     }
     if(Boss.life<=0)
     {
+        Mix_PlayChannel(-1,bossdeath,0);
         stage.score+=50*(level);
         boss_timer=FPS*60;
         isbossnull=true;
@@ -535,6 +539,7 @@ void doBoss(void)
 
 void spawnBoss(void)
 {
+    Mix_PlayChannel(-1,boss,0);
     isbossnull=false;
     Boss.texture = loadTexture("Media/REDBOSS.png");
     Boss.health = 1000 + level*400;
@@ -583,6 +588,7 @@ static void logic(void)
 {   
     if(app.keyboard[SDL_SCANCODE_ESCAPE])
     {
+    	Mix_PlayMusic(homemus,-1);
         homepage();
     }
 
@@ -653,6 +659,7 @@ static void logic(void)
 
 void initstage(void)
 {
+    
     playerTexture = loadTexture("Media/ship2.png");
     bulletTexture = loadTexture("Media/bullet_level_1.png");
     enemyTexture = loadTexture("Media/enemy_ships_1.png");
@@ -670,6 +677,7 @@ void initstage(void)
     Ult=loadTexture("Media/ult.png");
     engr=loadTexture("Media/energy.png");
     ultpower=loadTexture("Media/ultpower.png");
+    Mix_HaltMusic();
 
     app.delegate.logic = logic;
 	app.delegate.draw = draw;
