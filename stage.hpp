@@ -664,6 +664,7 @@ void initstage(void)
     lifepod = loadTexture("Media/lifepod.png");
     healthstat = loadTexture("Media/health_stat.png");
     Life = loadTexture("Media/life.png");
+    BLife = loadTexture("Media/Blife.png");
     one=loadTexture("Media/one.png");
     two=loadTexture("Media/two.png");
     three=loadTexture("Media/three.png");

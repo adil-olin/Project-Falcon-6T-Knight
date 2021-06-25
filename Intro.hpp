@@ -25,7 +25,7 @@ void credit(void);
 void init_intro(void)
 {
 	point = loadTexture("Media/select.jpg");
-	logo = loadTexture("Media/lg1.jpg");
+	logo = IMG_LoadTexture(app.renderer,"Media/lg1.png");
 	home = loadTexture("Media/home1.jpg");
     load0 = loadTexture("Media/load0.jpg");
     load1 = loadTexture("Media/load1.jpg");
@@ -189,7 +189,7 @@ static void intro()
 	 prepareScene();
 	drawintro(load0);
 	presentScene();
-	SDL_Delay(700);
+	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(load1);
 	presentScene();
@@ -197,7 +197,7 @@ static void intro()
 	SDL_RenderClear(app.renderer);
 	drawintro(load2);
 	presentScene();
-	SDL_Delay(700);
+	SDL_Delay(500);
 	SDL_RenderClear(app.renderer);
 	drawintro(title0);
 	presentScene();
@@ -211,7 +211,7 @@ static void intro()
 		SDL_SetTextureAlphaMod(logo,a);
 		SDL_RenderCopy(app.renderer,logo,&s,&d);
 		presentScene();
-		SDL_Delay(10);
+		SDL_Delay(9);
 	}
 	//.................
 	drawintro(title1);
