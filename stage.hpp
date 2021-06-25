@@ -155,7 +155,7 @@ void doultEnergy(void)
         ultEnergy.health=0;
         if(!isbossnull)
         {
-            Boss.health-=50;
+            Boss.health-=500;
         }
     }
 }

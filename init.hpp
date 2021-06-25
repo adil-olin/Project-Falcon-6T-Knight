@@ -56,20 +56,20 @@ void initSDL(void)
 
 void initGame(void)
 {
+	initsound();
+
 	initBackground();
 
 	initStarfield();
 	
 	init_instruction();
-	//initSounds();
+
 	init_credit();
+	
 	initfont();
 
 	initHighscoreTable();
 
-	// loadMusic("music/Mercury.ogg");
-
-	// playMusic(1);
 }
 
 #endif

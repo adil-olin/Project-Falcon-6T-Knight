@@ -20,9 +20,8 @@ using namespace std;
 void initstage(void);
 void initHighscores(void);
 void credit(void);
-
-void init_intro(void)
-{	
+void initsound(void)
+{
 	Cursor_sound= Mix_LoadWAV("Media/Music/click.ogg");
 	homemus = Mix_LoadMUS("Media/Music/homemus.mp3");
 	bulletmus = Mix_LoadWAV("Media/Music/explode4.ogg");
@@ -32,15 +31,18 @@ void init_intro(void)
 	bossdeath = Mix_LoadWAV("Media/Music/explode.ogg");
 	Player_death = Mix_LoadWAV("Media/Music/cloak.ogg");
 	Ult_sound = Mix_LoadWAV("Media/Music/Ult_sound.ogg");
+}
+void init_intro(void)
+{	
 	point = loadTexture("Media/select.jpg");
 	logo = IMG_LoadTexture(app.renderer,"Media/lg1.png");
 	home = loadTexture("Media/home1.jpg");
-    	load0 = loadTexture("Media/load0.jpg");
-    	load1 = loadTexture("Media/load1.jpg");
-    	load2 = loadTexture("Media/load2.jpg");
-    	title0 = loadTexture("Media/title0.jpg");
-    	title1 = loadTexture("Media/title1.jpg");
-    	title2 = loadTexture("Media/title2.jpg");
+	load0 = loadTexture("Media/load0.jpg");
+	load1 = loadTexture("Media/load1.jpg");
+	load2 = loadTexture("Media/load2.jpg");
+	title0 = loadTexture("Media/title0.jpg");
+	title1 = loadTexture("Media/title1.jpg");
+	title2 = loadTexture("Media/title2.jpg");
 }
 void Select(int x,int y, int z)
 {
@@ -54,10 +56,8 @@ void Select(int x,int y, int z)
 
 void homelogic(void)
 {
-	//cout <<MouseX<<" "<<MouseY<<endl;
 	if(MouseX>=149 && MouseX<=385 && MouseY >=262 && MouseY<=295)
 	{
-	//	cout <<MouseX<<" "<<MouseY<<endl;
 		if(app.mouse[0]==1)
 		{	
 			isstarted=false;

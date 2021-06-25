@@ -39,8 +39,10 @@ static void drawHighscores(void)
 			b = 0;
 		}
 
-		drawText(200, y, r, g, b, "#%d.%-15s ...... %03d", (i + 1), highscores.highscore[i].name, highscores.highscore[i].score);
-
+		drawText(200, y, r, g, b, "#%d.%-15s", (i + 1), highscores.highscore[i].name);
+		
+		drawText(1000, y, r, g, b, "%03d", highscores.highscore[i].score);
+		
 		y += 50;
 	}
 
