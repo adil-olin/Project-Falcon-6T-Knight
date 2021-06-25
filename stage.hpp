@@ -527,7 +527,7 @@ void doBoss(void)
         Boss.health = 1000 + level*400;
         Boss.life--;
     }
-    cout<<Boss.life<<endl;
+    //cout<<Boss.life<<endl;
     if(Boss.life<=0)
     {
         Mix_PlayChannel(-1,bossdeath,0);
